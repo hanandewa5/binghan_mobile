@@ -1,4 +1,4 @@
-package com.example.binghan_mobile_new
+package com.example.binghan_mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

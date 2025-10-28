@@ -1,3 +1,3 @@
-# binghan_mobile_new
+# binghan_mobile
 
 A new Flutter project.
