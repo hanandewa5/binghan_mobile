@@ -1,20 +1,45 @@
+import 'dart:io';
+
+import 'package:binghan_mobile/_config/theme.dart';
+import 'package:binghan_mobile/views/_widgets/Alert/Dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:binghan_mobile/_config/locator.dart';
+import 'package:binghan_mobile/_config/router.dart' as router;
+import 'package:binghan_mobile/_services/navigation_service.dart';
+import 'package:binghan_mobile/_constants/route_paths.dart' as routes;
 
 void main() {
-  runApp(const MainApp());
+  setupLocator();
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    return MaterialApp(
+      title: 'Binghan Mobile',
+      debugShowCheckedModeBanner: false,
+      builder: (context, widget) => Navigator(
+        onGenerateRoute: (settings) => MaterialPageRoute(
+          builder: (context) => DialogManager(child: widget!),
         ),
       ),
+      theme: MyTheme.mainThemes,
+      onGenerateRoute: router.generateRoute,
+      initialRoute: routes.SplashRoute,
+      navigatorKey: locator<NavigationService>().navigatorKey,
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
