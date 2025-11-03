@@ -9,83 +9,82 @@ import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({Key key}) : super(key: key);
+  const Cart({super.key});
 
   @override
-  _CartState createState() => _CartState();
+  State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
-    // Color _bgColor = Theme.of(context).backgroundColor;
+    var width = MediaQuery.of(context).size.width;
+    // Color _bgColor = Theme.of(context).scaffoldBackgroundColor;
     return BaseView<CartViewModal>(
-        onModelReady: (model) {
-          model.init();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          var _colorPrimary = Theme.of(context).primaryColor;
-          return Scaffold(
-              backgroundColor: Colors.white,
-              bottomNavigationBar: BottomBar(
-                width: _width,
-                colorPrimary: _colorPrimary,
-                model: model,
-              ),
-              appBar: AppBar(
-                centerTitle: true,
-                elevation: 0,
-                title: Text(
-                  "Cart",
-                  style: textMedium,
-                ),
-              ),
-              body: LoaderListPage(
-                refresh: model.refreshCart,
-                isLoading: model.busy,
-                length: model.listCart.length,
-                listType: "list",
-                child: ListView.builder(
-                  itemCount: model.listCart.length,
-                  itemBuilder: (context, i) {
-                    return CartList(model: model, listCart: model.listCart[i]);
-                  },
-                ),
-              ));
-        });
+      onModelReady: (model) {
+        model.init();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        var colorPrimary = Theme.of(context).primaryColor;
+        return Scaffold(
+          backgroundColor: Colors.white,
+          bottomNavigationBar: BottomBar(
+            width: width,
+            colorPrimary: colorPrimary,
+            model: model,
+          ),
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            title: Text("Cart", style: textMedium),
+          ),
+          body: LoaderListPage(
+            refresh: model.refreshCart,
+            isLoading: model.busy,
+            length: model.listCart.length,
+            listType: "list",
+            child: ListView.builder(
+              itemCount: model.listCart.length,
+              itemBuilder: (context, i) {
+                return CartList(model: model, listCart: model.listCart[i]);
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
 class BottomBar extends StatelessWidget {
+  const BottomBar({
+    super.key,
+    this.width,
+    this.colorPrimary,
+    required this.model,
+  });
+
   final CartViewModal model;
-
-  const BottomBar(
-      {Key key,
-      required double width,
-      required Color colorPrimary,
-      this.model})
-      : _width = width,
-        _colorPrimary = colorPrimary,
-        super(key: key);
-
-  final double _width;
-  final Color _colorPrimary;
+  final double? width;
+  final Color? colorPrimary;
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      width: _width,
+    return Container(
+      width: width,
       height: 80.0,
       padding: UIHelper.marginSymmetric(15, 12),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(offset: Offset(0, -1), color: MyColors.ColorShadow)
-      ]),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(offset: Offset(0, -1), color: MyColors.ColorShadow),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(width: 0,),
+          SizedBox(width: 0),
           // Flexible(
           //   child: Row(
           //     crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,31 +109,30 @@ class BottomBar extends StatelessWidget {
                   Paragraft(
                     text: "Sub Total :",
                     textStyle: textThinBold,
-                    color: _colorPrimary,
+                    color: colorPrimary,
                   ),
                   Paragraft(
-                    text: formatIDR(model.subTotal),
+                    text: model.subTotal.toString(),
                     textStyle: textThinBold,
-                    color: _colorPrimary,
+                    color: colorPrimary,
                   ),
                 ],
               ),
               UIHelper.horizontalSpaceSmall(),
-              RaisedButton(
-                padding: UIHelper.marginSymmetric(15, 30),
-                color: _colorPrimary,
-                child: Paragraft(
-                  text: "Beli",
-                  color: Colors.white,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: UIHelper.marginSymmetric(15, 30),
+                  backgroundColor: colorPrimary,
                 ),
-                onPressed: model.isNull || model.listCart.length == 0
+                onPressed: model.isNull || model.listCart.isEmpty
                     ? null
                     : () {
                         model.goToInvoice();
                       },
-              )
+                child: Paragraft(text: "Beli", color: Colors.white),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -142,147 +140,136 @@ class BottomBar extends StatelessWidget {
 }
 
 class CartList extends StatelessWidget {
-  final ListCart listCart;
+  final ListCart? listCart;
   final CartViewModal model;
 
-  const CartList({
-    this.listCart,
-    this.model,
-    Key key,
-  }) : super(key: key);
+  const CartList({this.listCart, required this.model, super.key});
 
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return Container(
-        width: _width,
-        margin: UIHelper.marginHorizontal(12),
-        padding: UIHelper.marginVertical(15),
-        decoration: BoxDecoration(
-            border:
-                Border(bottom: BorderSide(color: Colors.black12, width: 1.7))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // CartCheckbox(
-                //   model: model,
-                //   id: listCart.id,
-                // ),
-                UIHelper.horizontalSpaceSmall(),
-                Container(
-                  width: _width * 0.3,
-                  height: _width * 0.3,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: FadeInImage(
-                      image: NetworkImage(listCart.items.imageUrl),
-                      fit: BoxFit.cover,
-                      placeholder: AssetImage('lib/_assets/images/loading.gif'),
-                    ),
+      width: width,
+      margin: UIHelper.marginHorizontal(12),
+      padding: UIHelper.marginVertical(15),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.black12, width: 1.7)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // CartCheckbox(
+              //   model: model,
+              //   id: listCart.id,
+              // ),
+              UIHelper.horizontalSpaceSmall(),
+              SizedBox(
+                width: width * 0.3,
+                height: width * 0.3,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: FadeInImage(
+                    image: NetworkImage(listCart?.items?.imageUrl ?? ''),
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage('lib/_assets/images/loading.gif'),
                   ),
                 ),
-                UIHelper.horizontalSpaceSmall(),
-                Container(
-                  // height: _width * 0.3,
-                  width: _width * 0.4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Paragraft(
-                                textOverflow: TextOverflow.ellipsis,
-                                text: listCart.items.name,
-                                textStyle: textThinBold,
-                              ),
-                              Paragraft(
-                                text: formatIDR(listCart.itemPrice),
-                                textStyle: textThinBold,
-                                color: Colors.black38,
-                              ),
-                              Paragraft(
-                                text:
-                                    "Pop Disc : ${formatIDR(listCart.popDis)}",
-                                textStyle: textThinBold,
-                                color: Colors.black38,
-                              )
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Paragraft(
-                                text: "Order for",
-                                textStyle: textThinBold,
-                              ),
-                              Paragraft(
-                                text:
-                                    "${listCart.member.binghanId} - ${listCart.member.firstName} ${listCart.member.lastName}",
-                                textStyle: textThinBold,
-                                color: Colors.black38,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      UIHelper.verticalSpaceSmall(),
-                      counter(listCart.id, listCart.orderQty),
-                    ],
-                  ),
+              ),
+              UIHelper.horizontalSpaceSmall(),
+              SizedBox(
+                // height: _width * 0.3,
+                width: width * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Paragraft(
+                              textOverflow: TextOverflow.ellipsis,
+                              text: listCart?.items?.name ?? '',
+                              textStyle: textThinBold,
+                            ),
+                            Paragraft(
+                              text: listCart?.itemPrice?.toString() ?? '',
+                              textStyle: textThinBold,
+                              color: Colors.black38,
+                            ),
+                            Paragraft(
+                              text: "Pop Disc : ${listCart?.popDis ?? '0'}",
+                              textStyle: textThinBold,
+                              color: Colors.black38,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Paragraft(
+                              text: "Order for",
+                              textStyle: textThinBold,
+                            ),
+                            Paragraft(
+                              text:
+                                  "${listCart?.member?.binghanId} - ${listCart?.member?.firstName} ${listCart?.member?.lastName}",
+                              textStyle: textThinBold,
+                              color: Colors.black38,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    UIHelper.verticalSpaceSmall(),
+                    counter(listCart?.id ?? 0, listCart?.orderQty ?? 0),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: width * 0.3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                UIHelper.verticalSpaceSmall(),
+                InkWell(
+                  onTap: () {
+                    model.deleteOnce(listCart?.id ?? 0);
+                  },
+                  child: Icon(Icons.delete, color: Colors.black26, size: 28),
                 ),
               ],
             ),
-            Container(
-              height: _width * 0.3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  UIHelper.verticalSpaceSmall(),
-                  InkWell(
-                    onTap: () {
-                      model.deleteOnce(listCart.id);
-                    },
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.black26,
-                      size: 28,
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Widget counter(int id, int qty) {
-    var _colorPrimary = MyColors.ColorPrimary;
+    var colorPrimary = MyColors.ColorPrimary;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
           width: 35,
           height: 35,
-          color: _colorPrimary,
+          color: colorPrimary,
           child: InkWell(
             onTap: () {
               model.increaseOnce(id, -1);
             },
-            child: Icon(
-              Icons.remove,
-              color: Colors.white,
-            ),
+            child: Icon(Icons.remove, color: Colors.white),
           ),
         ),
         Container(
@@ -294,15 +281,12 @@ class CartList extends StatelessWidget {
         Container(
           width: 35,
           height: 35,
-          color: _colorPrimary,
+          color: colorPrimary,
           child: InkWell(
             onTap: () {
               model.increaseOnce(id, 1);
             },
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
+            child: Icon(Icons.add, color: Colors.white),
           ),
         ),
       ],

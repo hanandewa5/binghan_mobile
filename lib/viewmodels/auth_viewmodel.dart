@@ -29,12 +29,13 @@ class AuthViewModel extends BaseModel {
     // _navigationService.navigateTo(routes.WebWelcome);
   }
 
-  Future<void> exitApp(BuildContext context) async {
+  Future<bool> exitApp(BuildContext context) async {
     if (await _controller?.canGoBack() == true) {
       _controller?.goBack();
     } else {
       _navigationService.replaceTo(routes.AppRoute);
     }
+    return false;
   }
 
   Future login(String binghanId, String password) async {

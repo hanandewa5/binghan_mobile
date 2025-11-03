@@ -101,21 +101,10 @@ class MyStrings {
   static const String textProfile = "Profile";
 }
 
-// String formatIDR(int n) {
-//   if (n == null) {
-//     return "IDR 0";
-//   }
-
-//   MoneyFormatterOutput fo = FlutterMoneyFormatter(
-//     amount: n.toDouble(),
-//     settings: MoneyFormatterSettings(
-//       symbol: 'IDR',
-//       thousandSeparator: '.',
-//       decimalSeparator: ',',
-//       symbolAndNumberSeparator: ' ',
-//       fractionDigits: 0,
-//       compactFormatType: CompactFormatType.short,
-//     ),
-//   ).output;
-//   return fo.symbolOnLeft.toString();
-// }
+String formatIDR(int n) {
+  try {
+    return "Rp${n.toString().replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
+  } catch (e) {
+    return "Rp0";
+  }
+}

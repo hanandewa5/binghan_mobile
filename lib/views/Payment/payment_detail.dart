@@ -8,119 +8,104 @@ import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class PaymentDetailView extends StatefulWidget {
-  const PaymentDetailView({Key key}) : super(key: key);
+  const PaymentDetailView({super.key});
 
   @override
-  _PaymentDetailViewState createState() => _PaymentDetailViewState();
+  State<PaymentDetailView> createState() => _PaymentDetailViewState();
 }
 
 class _PaymentDetailViewState extends State<PaymentDetailView> {
   @override
   Widget build(BuildContext context) {
-    Color _bgColor = Theme.of(context).backgroundColor;
+    Color bgColor = Theme.of(context).scaffoldBackgroundColor;
     return BaseView<PaymentViewModel>(
-        onModelReady: (model) {
-          // model.initPayment();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          return Scaffold(
-              backgroundColor: _bgColor,
-              appBar: AppBar(
-                elevation: 0,
-                centerTitle: true,
-                title: Text(
-                  "Payment",
-                  style: textMedium,
+      onModelReady: (model) {
+        // model.initPayment();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        return Scaffold(
+          backgroundColor: bgColor,
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            title: Text("Payment", style: textMedium),
+          ),
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    (model.busy)
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height - 80,
+                            child: Center(child: ColorLoader2()),
+                          )
+                        : Column(children: <Widget>[CartList(model: model)]),
+                  ],
                 ),
               ),
-              body: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Container(
-                        child: Column(
-                      children: <Widget>[
-                        (model.busy)
-                            ? Container(
-                                height: MediaQuery.of(context).size.height - 80,
-                                child: Center(
-                                  child: ColorLoader2(),
-                                ),
-                              )
-                            : Column(
-                                children: <Widget>[CartList(model: model)],
-                              ),
-                      ],
-                    )),
-                  ),
-                ],
-              ));
-        });
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
 class CartList extends StatelessWidget {
   final PaymentViewModel model;
 
-  const CartList({
-    this.model,
-    Key key,
-  }) : super(key: key);
+  const CartList({required this.model, super.key});
 
   @override
   Widget build(BuildContext context) {
     // bool isExpanded = false;
 
-    Color _colorAccent = Theme.of(context).accentColor;
-    return Container(
-        child: Padding(
+    Color colorAccent = Theme.of(context).colorScheme.secondary;
+    return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            "Detail Tagihan",
-            style: textLarge,
-          ),
+          Text("Detail Tagihan", style: textLarge),
           UIHelper.verticalSpaceMedium(),
           Text("Pembayaran"),
           UIHelper.horizontalLine(
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(vertical: 10)),
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(vertical: 10),
+          ),
           rowDetail(first: "Total Harga", second: formatIDR(model.subTotal)),
           rowDetail(
-              first: "Total Ongkos Kirim",
-              second: formatIDR(model.totalOngkir)),
-          rowDetail(
-              first: "Total Potongan Harga",
-              second: "- ${formatIDR(model.subDiscount)}",
-              secondColor: Colors.redAccent),
-          Sparator(
-            padding: UIHelper.marginSymmetric(15, 0),
+            first: "Total Ongkos Kirim",
+            second: formatIDR(model.totalOngkir),
           ),
           rowDetail(
-              first: "Total Bayar",
-              second: formatIDR(model.getGrandTotal()),
-              secondColor: _colorAccent),
+            first: "Total Potongan Harga",
+            second: "- ${formatIDR(model.subDiscount)}",
+            secondColor: Colors.redAccent,
+          ),
+          Sparator(padding: UIHelper.marginSymmetric(15, 0)),
+          rowDetail(
+            first: "Total Bayar",
+            second: formatIDR(model.getGrandTotal()),
+            secondColor: colorAccent,
+          ),
           Paragraft(
-            text: "${model.paymentMethod.name}",
+            text: "${model.paymentMethod?.name}",
             color: Colors.black54,
             textStyle: textThin,
           ),
-          Sparator(
-            padding: EdgeInsets.only(top: 20),
-          ),
+          Sparator(padding: EdgeInsets.only(top: 20)),
           // Product yang dibeli
           UIHelper.verticalSpaceLarge(),
-          Text(
-            "Produk yang dibeli",
-            style: textLarge,
-          ),
+          Text("Produk yang dibeli", style: textLarge),
           UIHelper.verticalSpaceMedium(),
           Text("Hongrui"),
           UIHelper.horizontalLine(
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(vertical: 10)),
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(vertical: 10),
+          ),
           ListView.builder(
             itemCount: model.listCart.length,
             shrinkWrap: true,
@@ -131,13 +116,16 @@ class CartList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   rowDetail2(
-                      context: context,
-                      first: "${model.listCart[i].items.name}",
-                      second: formatIDR((model.listCart[i].itemPrice *
-                          model.listCart[i].orderQty))),
+                    context: context,
+                    first: "${model.listCart[i].items?.name}",
+                    second: formatIDR(
+                      ((model.listCart[i].itemPrice ?? 0) *
+                          (model.listCart[i].orderQty ?? 0)),
+                    ),
+                  ),
                   Paragraft(
                     text:
-                        "${model.listCart[i].orderQty} X ${formatIDR(model.listCart[i].itemPrice)}",
+                        "${model.listCart[i].orderQty} X ${formatIDR(model.listCart[i].itemPrice ?? 0)}",
                     color: Colors.black54,
                     textStyle: textThin,
                   ),
@@ -147,45 +135,52 @@ class CartList extends StatelessWidget {
             },
           ),
 
-          rowDetail(first: "Ongkos Kirim", second: formatIDR(model.totalOngkir))
+          rowDetail(
+            first: "Ongkos Kirim",
+            second: formatIDR(model.totalOngkir),
+          ),
         ],
       ),
-    ));
+    );
   }
 
-  Widget rowDetail(
-      {String first, String second, Color secondColor: Colors.black}) {
+  Widget rowDetail({
+    String? first,
+    String? second,
+    Color secondColor = Colors.black,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(first),
+        Text(first ?? ""),
         Text(
-          second,
+          second ?? "",
           style: textThin.merge(TextStyle(color: secondColor)),
         ),
       ],
     );
   }
 
-  Widget rowDetail2(
-      {BuildContext context,
-      String first,
-      String second,
-      Color secondColor: Colors.black}) {
-    var _width = MediaQuery.of(context).size.width;
+  Widget rowDetail2({
+    required BuildContext context,
+    String? first,
+    String? second,
+    Color secondColor = Colors.black,
+  }) {
+    var width = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         SizedBox(
-          width: _width * 0.6,
+          width: width * 0.6,
           child: Text(
-            first,
+            first ?? "",
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
         ),
         Text(
-          second,
+          second ?? "",
           style: textThin.merge(TextStyle(color: secondColor)),
         ),
       ],

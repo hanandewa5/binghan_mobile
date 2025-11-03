@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key key}) : super(key: key);
+  const Profile({super.key}) ;
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile> {
         statusBarTheme: Brightness.dark,
         builder: (context, model, child) {
           return Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
                 centerTitle: true,
                 title: Text(MyStrings.textProfile),

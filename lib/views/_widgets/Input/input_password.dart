@@ -2,14 +2,10 @@ import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:flutter/material.dart';
 
 class InputPassword extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String name;
 
-  const InputPassword({
-    required this.controller,
-    required this.name,
-    super.key,
-  });
+  const InputPassword({this.controller, required this.name, super.key});
 
   @override
   State<InputPassword> createState() => _InputPasswordState();

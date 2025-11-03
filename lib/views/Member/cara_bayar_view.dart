@@ -10,60 +10,57 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../base_view.dart';
 
 class CaraBayarMemberView extends StatefulWidget {
-  const CaraBayarMemberView({Key key}) : super(key: key);
+  const CaraBayarMemberView({super.key});
 
   @override
-  _CaraBayarMemberViewState createState() => _CaraBayarMemberViewState();
+  State<CaraBayarMemberView> createState() => _CaraBayarMemberViewState();
 }
 
 class _CaraBayarMemberViewState extends State<CaraBayarMemberView> {
   @override
   Widget build(BuildContext context) {
-    Color _bgColor = Theme.of(context).backgroundColor;
+    Color _bgColor = Theme.of(context).scaffoldBackgroundColor;
     return BaseView<MemberViewModel>(
-        onModelReady: (model) {
-          model.startTimer();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          return WillPopScope(
-            onWillPop: model.goToRoot,
-            child: Scaffold(
-                backgroundColor: _bgColor,
-                appBar: AppBar(
-                  elevation: 0,
-                  centerTitle: true,
-                  title: Text(
-                    "Cara Pembayaran",
-                    style: textMedium,
+      onModelReady: (model) {
+        model.startTimer();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        return WillPopScope(
+          onWillPop: model.goToRoot,
+          child: Scaffold(
+            backgroundColor: _bgColor,
+            appBar: AppBar(
+              elevation: 0,
+              centerTitle: true,
+              title: Text("Cara Pembayaran", style: textMedium),
+            ),
+            body: model.invoiceUrl?.method == "BCA"
+                ? CartList(model: model)
+                : WebViewWidget(
+                    controller: WebViewController()
+                      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                      ..loadRequest(
+                        Uri.parse(model.invoiceUrl?.urlInvoice ?? ''),
+                      ),
                   ),
-                ),
-                body: model.invoiceUrl.method == "BCA"
-                    ? CartList(
-                        model: model,
-                      )
-                    : WebView(
-                        initialUrl: Uri.encodeFull(model.invoiceUrl.urlInvoice),
-                        javascriptMode: JavascriptMode.unrestricted,
-                      )),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
 
 class CartList extends StatelessWidget {
   final MemberViewModel model;
 
-  const CartList({
-    this.model,
-    Key key,
-  }) : super(key: key);
+  const CartList({required this.model, super.key});
 
   @override
   Widget build(BuildContext context) {
     // bool isExpanded = false;
 
-    Color _colorAccent = Theme.of(context).accentColor;
+    Color colorAccent = Theme.of(context).colorScheme.secondary;
     return Container(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -73,8 +70,9 @@ class CartList extends StatelessWidget {
             margin: UIHelper.marginSymmetric(10, 0),
             padding: UIHelper.marginSymmetric(20, 10),
             decoration: BoxDecoration(
-                color: Colors.black12,
-                border: Border.all(width: 1, color: _colorAccent)),
+              color: Colors.black12,
+              border: Border.all(width: 1, color: colorAccent),
+            ),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,31 +85,16 @@ class CartList extends StatelessWidget {
                     ),
                     UIHelper.verticalSpaceSmall(),
                     Text(
-                        "${model.hour} Jam : ${model.minute} Menit : ${model.second} Detik"),
+                      "${model.hour} Jam : ${model.minute} Menit : ${model.second} Detik",
+                    ),
                     UIHelper.verticalSpaceSmall(),
                     Text(
-                        "Sebelum hari " +
-                            formatDate(
-                                DateTime.now().add(Duration(days: 1)),
-                                [
-                                  DD,
-                                  ', ',
-                                  dd,
-                                  ' ',
-                                  MM,
-                                  ' ',
-                                  yyyy,
-                                  ', ',
-                                  HH,
-                                  ':',
-                                  mm
-                                ],
-                                locale: IndoLocale()) +
-                            " WIB",
-                        style: textThin,
-                        textAlign: TextAlign.center)
+                      "Sebelum hari ${formatDate(DateTime.now().add(Duration(days: 1)), [DD, ', ', dd, ' ', MM, ' ', yyyy, ', ', HH, ':', mm], locale: IndoLocale())} WIB",
+                      style: textThin,
+                      textAlign: TextAlign.center,
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -127,32 +110,32 @@ class CartList extends StatelessWidget {
                     width: 90,
                     height: 70,
                     fit: BoxFit.cover,
-                    image: NetworkImage(model.paymentMethod.logoUrl),
+                    image: NetworkImage(model.paymentMethod?.logoUrl ?? ''),
                   ),
                   UIHelper.horizontalSpaceMedium(),
                   Paragraft(
-                    text: "${model.invoiceUrl.urlInvoice}",
+                    text: "${model.invoiceUrl?.urlInvoice}",
                     fontSize: 18,
-                  )
+                  ),
                 ],
               ),
               UIHelper.verticalSpaceMedium(),
               InkWell(
                 onTap: () {
                   return model.clickToCopy(
-                      context, "${model.invoiceUrl.urlInvoice}");
+                    context,
+                    "${model.invoiceUrl?.urlInvoice}",
+                  );
                 },
                 child: Paragraft(
                   text: "Salin no rek",
-                  textStyle: textThin
-                      .merge(TextStyle(decoration: TextDecoration.underline)),
+                  textStyle: textThin.merge(
+                    TextStyle(decoration: TextDecoration.underline),
+                  ),
                 ),
               ),
               UIHelper.verticalSpaceMedium(),
-              Divider(
-                height: 1,
-                color: Colors.black,
-              ),
+              Divider(height: 1, color: Colors.black),
               UIHelper.verticalSpaceMedium(),
               Paragraft(
                 text: "Jumlah yang harus dibayar:",
@@ -160,23 +143,28 @@ class CartList extends StatelessWidget {
               ),
               UIHelper.verticalSpaceMedium(),
               Paragraft(
-                text: formatIDR(model.invoiceUrl.total),
-                color: _colorAccent,
+                // text: formatIDR(model.invoiceUrl?.total),
+                text: model.invoiceUrl?.total?.toString() ?? '',
+                color: colorAccent,
               ),
               UIHelper.verticalSpaceMedium(),
               InkWell(
                 onTap: () {
-                  model.clickToCopy(context, model.invoiceUrl.total.toString());
+                  model.clickToCopy(
+                    context,
+                    model.invoiceUrl?.total?.toString() ?? '',
+                  );
                 },
                 child: Paragraft(
                   text: "Salin jumlah",
-                  textStyle: textThin
-                      .merge(TextStyle(decoration: TextDecoration.underline)),
+                  textStyle: textThin.merge(
+                    TextStyle(decoration: TextDecoration.underline),
+                  ),
                 ),
               ),
               UIHelper.verticalSpaceMedium(),
             ],
-          )
+          ),
           // InkWell(
           //   onTap: () {
           //     return model.goToPaymentDetail();
@@ -190,14 +178,17 @@ class CartList extends StatelessWidget {
     );
   }
 
-  Widget rowDetail(
-      {String first, String second, Color secondColor: Colors.black}) {
+  Widget rowDetail({
+    String? first,
+    String? second,
+    Color secondColor = Colors.black,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(first),
+        Text(first ?? ''),
         Text(
-          second,
+          second ?? '',
           style: textThin.merge(TextStyle(color: secondColor)),
         ),
       ],

@@ -117,9 +117,11 @@ class MemberViewModel extends BaseModel {
     district = listDistrict;
   }
 
-  void setTglLahir(DateTime date) {
-    tglLahir = DateTime(date.year, date.month, date.day);
-    refresh();
+  void setTglLahir(DateTime? date) {
+    if (date != null) {
+      tglLahir = DateTime(date.year, date.month, date.day);
+      refresh();
+    }
   }
 
   void init() {
@@ -372,7 +374,7 @@ class MemberViewModel extends BaseModel {
     }
   }
 
-  void setJenisKelamin(String value) {
+  void setJenisKelamin(String? value) {
     gender = value;
     refresh();
   }

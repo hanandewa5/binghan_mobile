@@ -28,16 +28,18 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
 }
 
 class AppTabBar extends StatefulWidget {
+  const AppTabBar({super.key});
+
   @override
-  _AppTabBarState createState() => _AppTabBarState();
+  State<AppTabBar> createState() => _AppTabBarState();
 }
 
 class _AppTabBarState extends State<AppTabBar>
     with SingleTickerProviderStateMixin {
-  TabController _controller;
-  DateTime currentBackPressTime;
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  DashboardViewModel _dashboardViewModel = locator<DashboardViewModel>();
+  late TabController _controller;
+  DateTime? currentBackPressTime;
+  final _firebaseMessaging = FirebaseMessaging.instance;
+  final _dashboardViewModel = locator<DashboardViewModel>();
 
   @override
   void initState() {
@@ -53,60 +55,56 @@ class _AppTabBarState extends State<AppTabBar>
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+    if (currentBackPressTime == null &&
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(
-          msg: "Tekan sekali lagi untuk keluar aplikasi",
-          gravity: ToastGravity.BOTTOM,
-          textColor: Colors.white,
-          fontSize: 16.0);
+        msg: "Tekan sekali lagi untuk keluar aplikasi",
+        gravity: ToastGravity.BOTTOM,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       return Future.value(false);
     }
     return Future.value(true);
   }
 
   void firebaseCloudMessagingListeners() {
-    _firebaseMessaging.configure(
-      // onBackgroundMessage: myBackgroundMessageHandler,
-      onMessage: (Map<String, dynamic> message) async {
-        print(message);
-        Fluttertoast.showToast(
-            msg: message["notification"]["body"],
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.black38,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        await _dashboardViewModel.getNotification();
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
-
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: false));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      Fluttertoast.showToast(
+        msg: message.data["notification"]["body"],
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black38,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      await _dashboardViewModel.getNotification();
     });
 
-    _firebaseMessaging.getToken().then((token) {
+    FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    FirebaseMessaging.instance.getToken().then((token) {
       MemberViewModel _model = locator<MemberViewModel>();
-      _model.editMember(token);
+      if (token != null) {
+        _model.editMember(token);
+      }
       print(token);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var colorBackground = Theme.of(context).backgroundColor;
-    var colorButtonActive = Theme.of(context).accentColor;
+    var colorBackground = Theme.of(context).scaffoldBackgroundColor;
+    var colorButtonActive = Theme.of(context).scaffoldBackgroundColor;
     return Scaffold(
       body: WillPopScope(
         onWillPop: onWillPop,
@@ -119,18 +117,17 @@ class _AppTabBarState extends State<AppTabBar>
             OrderHistoryTabView(),
             Product(),
             GroupSalesView(),
-            Profile()
+            Profile(),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        decoration: new BoxDecoration(color: colorBackground, boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 8.0,
-            spreadRadius: 1.0,
-          )
-        ]),
+        decoration: new BoxDecoration(
+          color: colorBackground,
+          boxShadow: [
+            BoxShadow(color: Colors.grey, blurRadius: 8.0, spreadRadius: 1.0),
+          ],
+        ),
         child: TabBar(
           indicatorWeight: 1,
           labelStyle: TextStyle(fontSize: 13),
@@ -158,13 +155,11 @@ class _AppTabBarState extends State<AppTabBar>
               text: MyStrings.textProduct,
             ),
             Tab(
-                icon: (_controller.index == 3)
-                    ? Icon(Icons.people)
-                    : Icon(
-                        Icons.people_outline,
-                        color: colorButtonActive,
-                      ),
-                text: MyStrings.textNetwork),
+              icon: (_controller.index == 3)
+                  ? Icon(Icons.people)
+                  : Icon(Icons.people_outline, color: colorButtonActive),
+              text: MyStrings.textNetwork,
+            ),
             Tab(
               icon: (_controller.index == 4)
                   ? SvgPicture.asset(MyIcon.profile_active)

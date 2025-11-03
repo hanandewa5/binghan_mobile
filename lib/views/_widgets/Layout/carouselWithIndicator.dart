@@ -12,10 +12,10 @@ List<T> map<T>(List list, Function handler) {
 
 class CarouselWithIndicator extends StatefulWidget {
   final List<Widget> items;
-  CarouselWithIndicator({required this.items, Key key}) : super(key: key);
+  const CarouselWithIndicator({required this.items, super.key});
 
   @override
-  _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
+  State<CarouselWithIndicator> createState() => _CarouselWithIndicatorState();
 }
 
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
@@ -23,37 +23,39 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      CarouselSlider(
-        items: widget.items,
-        enlargeCenterPage: true,
-        autoPlay: true,
-        viewportFraction: 0.99,
-        aspectRatio: 1.9,
-        onPageChanged: (index) {
-          setState(() {
-            _current = index;
-          });
-        },
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: map<Widget>(
-          widget.items,
-          (index, url) {
+    return Column(
+      children: [
+        CarouselSlider(
+          items: widget.items,
+          options: CarouselOptions(
+            enlargeCenterPage: true,
+            autoPlay: true,
+            viewportFraction: 0.99,
+            aspectRatio: 1.9,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: map<Widget>(widget.items, (index, url) {
             return Container(
               width: 8.0,
               height: 8.0,
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4)),
+                shape: BoxShape.circle,
+                color: _current == index
+                    ? Color.fromRGBO(0, 0, 0, 0.9)
+                    : Color.fromRGBO(0, 0, 0, 0.4),
+              ),
             );
-          },
+          }),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }

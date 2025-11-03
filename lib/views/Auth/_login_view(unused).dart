@@ -5,7 +5,7 @@ import 'package:binghan_mobile/viewmodels/auth_viewmodel.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key key}) : super(key: key);
+  const LoginView({super.key}) ;
 
   @override
   _LoginViewState createState() => _LoginViewState();

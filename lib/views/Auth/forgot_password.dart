@@ -10,7 +10,7 @@ import 'package:binghan_mobile/viewmodels/auth_viewmodel.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class ForgotPass extends StatefulWidget {
-  const ForgotPass({Key key}) : super(key: key);
+  const ForgotPass({super.key}) ;
 
   @override
   _ForgotPassState createState() => _ForgotPassState();

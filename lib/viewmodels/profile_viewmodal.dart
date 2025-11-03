@@ -466,7 +466,7 @@ class ProfileViewModel extends BaseModel {
     }
   }
 
-  void setJenisKelamin(String value) {
+  void setJenisKelamin(String? value) {
     gender = value;
     refresh();
   }

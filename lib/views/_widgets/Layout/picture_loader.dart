@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
 class PictureLoader extends StatelessWidget {
-  final bool isBusy;
-  final String url;
-  final double width;
-  final double height;
-  final bool editable;
-  final Function onPressed;
+  final bool? isBusy;
+  final String? url;
+  final double? width;
+  final double? height;
+  final bool? editable;
+  final VoidCallback? onPressed;
 
-  PictureLoader(
-      {this.isBusy,
-      this.url,
-      this.width,
-      this.height,
-      this.editable = false,
-      this.onPressed});
+  const PictureLoader({
+    super.key,
+    this.isBusy,
+    this.url,
+    this.width,
+    this.height,
+    this.editable = false,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,13 @@ class PictureLoader extends StatelessWidget {
             width: width,
             height: height,
             placeholder: AssetImage("lib/_assets/images/loading.gif"),
-            image: isBusy
+            image: isBusy == true
                 ? AssetImage("lib/_assets/images/loading.gif")
                 : (url != null && url != "")
-                    ? NetworkImage(url)
-                    : AssetImage("lib/_assets/images/profile.png"),
+                ? NetworkImage(url!)
+                : AssetImage("lib/_assets/images/profile.png"),
           ),
-          editable
+          editable == true
               ? Positioned(
                   top: 0,
                   bottom: 0,
@@ -48,9 +50,7 @@ class PictureLoader extends StatelessWidget {
                     ),
                   ),
                 )
-              : SizedBox(
-                  height: 0,
-                )
+              : SizedBox(height: 0),
         ],
       ),
     );

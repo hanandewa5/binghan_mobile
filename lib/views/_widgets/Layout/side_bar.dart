@@ -5,8 +5,10 @@ import 'package:binghan_mobile/_config/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SideBar extends StatefulWidget {
+  const SideBar({super.key});
+
   @override
-  _SideBarState createState() => _SideBarState();
+  State<SideBar> createState() => _SideBarState();
 }
 
 class _SideBarState extends State<SideBar> {
@@ -18,13 +20,14 @@ class _SideBarState extends State<SideBar> {
   String email = "johnDoe@mail.co";
 
   void _setProfile() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userData = json.decode(prefs.getString("userData"));
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString("userData");
+    var userData = data != null ? json.decode(data) : null;
 
     setState(() {
-      this.fullName = "${userData["last_name"]}, ${userData["first_name"]}";
-      this.email = userData["email"];
-      this.pictUrl = userData["photo_profile"];
+      fullName = "${userData["last_name"]}, ${userData["first_name"]}";
+      email = userData["email"];
+      pictUrl = userData["photo_profile"];
     });
   }
 
@@ -48,16 +51,11 @@ class _SideBarState extends State<SideBar> {
                   CircleAvatar(
                     radius: 40.0,
                     backgroundImage: NetworkImage(
-                        "https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__340.png"),
+                      "https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__340.png",
+                    ),
                   ),
-                  Text(
-                    this.fullName,
-                    style: TextStyle(color: Color(0xFFF3F3F3)),
-                  ),
-                  Text(
-                    this.email,
-                    style: TextStyle(color: Color(0xFFD3D3D3)),
-                  ),
+                  Text(fullName, style: TextStyle(color: Color(0xFFF3F3F3))),
+                  Text(email, style: TextStyle(color: Color(0xFFD3D3D3))),
                 ],
               ),
             ),

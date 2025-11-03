@@ -18,7 +18,7 @@ class EditProfilePasswordView extends StatelessWidget {
         statusBarTheme: Brightness.dark,
         builder: (context, model, child) {
           return Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
                 centerTitle: true,
                 title: Text(

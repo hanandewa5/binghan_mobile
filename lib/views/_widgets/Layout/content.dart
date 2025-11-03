@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class Content extends StatelessWidget {
   final Widget child;
-  final double height;
+  final double? height;
 
-  Content({required this.child, this.height, Key key}) : super(key: key);
+  const Content({required this.child, this.height, super.key});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Stack(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: height ?? MediaQuery.of(context).size.height,
             child: child,
-          )
+          ),
         ],
       ),
     );

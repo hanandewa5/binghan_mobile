@@ -7,42 +7,49 @@ import 'package:binghan_mobile/views/base_view.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
 
 class OrderInvoiceHeaderView extends StatefulWidget {
-  const OrderInvoiceHeaderView({Key key}) : super(key: key);
+  const OrderInvoiceHeaderView({super.key});
 
   @override
-  _OrderInvoiceHeaderViewState createState() => _OrderInvoiceHeaderViewState();
+  State<OrderInvoiceHeaderView> createState() => _OrderInvoiceHeaderViewState();
 }
 
 class _OrderInvoiceHeaderViewState extends State<OrderInvoiceHeaderView> {
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     // var _height = MediaQuery.of(context).size.height;
     return BaseView<OrderViewModel>(
-        onModelReady: (model) {
-          model.init();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          var _colorAccent = Theme.of(context).accentColor;
+      onModelReady: (model) {
+        model.init();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        var colorAccent = Theme.of(context).colorScheme.secondary;
 
-          return Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
-              body: LoaderListPage(
-                refresh: model.refreshInit,
-                length: model.listInvoiceHeader.length,
-                isLoading: model.busy,
-                child: ListView.builder(
-                  itemCount: model.listInvoiceHeader.length,
-                  itemBuilder: (context, i) {
-                    return cardList(model, i, _width, _colorAccent);
-                  },
-                ),
-              ));
-        });
+        return Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: LoaderListPage(
+            refresh: model.refreshInit,
+            length: model.listInvoiceHeader.length,
+            isLoading: model.busy,
+            child: ListView.builder(
+              itemCount: model.listInvoiceHeader.length,
+              itemBuilder: (context, i) {
+                return cardList(model, i, width, colorAccent);
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  Widget cardList(OrderViewModel model, int i, double _width, Color _colorAccent) {
+  Widget cardList(
+    OrderViewModel model,
+    int i,
+    double width,
+    Color colorAccent,
+  ) {
     return InkWell(
       onTap: () {
         model.goToInvoiceDetail(model.listInvoiceHeader[i]);
@@ -54,29 +61,31 @@ class _OrderInvoiceHeaderViewState extends State<OrderInvoiceHeaderView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-                width: double.infinity,
-                color: Color(0xFFFBF2D2),
-                padding: UIHelper.marginSymmetric(5, 8),
-                child: Text(
-                  "${model.listInvoiceHeader[i].binghanId} - ${model.listInvoiceHeader[i].name}",
-                  style: textThin,
-                )),
+              width: double.infinity,
+              color: Color(0xFFFBF2D2),
+              padding: UIHelper.marginSymmetric(5, 8),
+              child: Text(
+                "${model.listInvoiceHeader[i].binghanId} - ${model.listInvoiceHeader[i].name}",
+                style: textThin,
+              ),
+            ),
             Container(
-                width: double.infinity,
-                padding: UIHelper.marginSymmetric(5, 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "${model.listInvoiceHeader[i].invoiceDateFormated}",
-                      style: textThin,
-                    ),
-                    Text(
-                      "${model.listInvoiceHeader[i].invoiceNo}",
-                      style: textThin,
-                    ),
-                  ],
-                )),
+              width: double.infinity,
+              padding: UIHelper.marginSymmetric(5, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "${model.listInvoiceHeader[i].invoiceDateFormated}",
+                    style: textThin,
+                  ),
+                  Text(
+                    "${model.listInvoiceHeader[i].invoiceNo}",
+                    style: textThin,
+                  ),
+                ],
+              ),
+            ),
             // Divider(),
             // Container(
             //   width: double.infinity,
@@ -131,26 +140,34 @@ class _OrderInvoiceHeaderViewState extends State<OrderInvoiceHeaderView> {
             // ),
             Divider(),
             Container(
-                width: double.infinity,
-                padding: UIHelper.marginSymmetric(5, 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Paragraft(
-                      text: "Total Pembayaran",
-                      textStyle: textThin,
-                      color: Colors.black87,
-                    ),
-                    Paragraft(
-                      text: formatIDR(model.listInvoiceHeader[i].subTotal +
-                          model.listInvoiceHeader[i].ppn -
-                          model.listInvoiceHeader[i].discount),
-                      textStyle: textThin,
-                      color: _colorAccent,
-                    ),
-                  ],
-                )),
+              width: double.infinity,
+              padding: UIHelper.marginSymmetric(5, 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Paragraft(
+                    text: "Total Pembayaran",
+                    textStyle: textThin,
+                    color: Colors.black87,
+                  ),
+                  Paragraft(
+                    // text: formatIDR(
+                    //   model.listInvoiceHeader[i].subTotal +
+                    //       model.listInvoiceHeader[i].ppn -
+                    //       model.listInvoiceHeader[i].discount,
+                    // ),
+                    text:
+                        ((model.listInvoiceHeader[i].subTotal ?? 0) +
+                                (model.listInvoiceHeader[i].ppn ?? 0) -
+                                (model.listInvoiceHeader[i].discount ?? 0))
+                            .toString(),
+                    textStyle: textThin,
+                    color: colorAccent,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

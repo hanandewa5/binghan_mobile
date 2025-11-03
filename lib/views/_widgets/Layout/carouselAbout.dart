@@ -17,32 +17,20 @@ List<T> map<T>(List list, Function handler) {
 
 class CarouselAbout extends StatefulWidget {
   final List<Widget> items;
-  CarouselAbout({required this.items, Key key}) : super(key: key);
+  const CarouselAbout({required this.items, super.key});
 
   @override
-  _CarouselAboutState createState() => _CarouselAboutState();
+  State<CarouselAbout> createState() => _CarouselAboutState();
 }
 
 class _CarouselAboutState extends State<CarouselAbout> {
   final NavigationService _navigationService = locator<NavigationService>();
+  final CarouselSliderController? controller = null;
+
   int _current = 0;
 
   @override
   Widget build(BuildContext context) {
-    final basicSlider = CarouselSlider(
-      items: widget.items,
-      enableInfiniteScroll: false,
-      height: MediaQuery.of(context).size.height,
-      // enlargeCenterPage: true,
-      viewportFraction: 0.99,
-      // aspectRatio: 1.9,
-      onPageChanged: (index) {
-        setState(() {
-          _current = index;
-        });
-      },
-    );
-
     void changeIndex(int i) {
       // setState(() {
       //   _current = _current + i;
@@ -51,46 +39,62 @@ class _CarouselAboutState extends State<CarouselAbout> {
       print("$_current , ${widget.items.length}");
 
       if (i > 0) {
-        basicSlider.nextPage(
-            duration: Duration(milliseconds: 300), curve: Curves.linear);
+        controller?.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.linear,
+        );
         if (widget.items.length == _current + 1) {
           _navigationService.goBack();
         }
       } else {
-        basicSlider.previousPage(
-            duration: Duration(milliseconds: 300), curve: Curves.linear);
+        controller?.previousPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.linear,
+        );
       }
     }
 
-    return Stack(children: [
-      basicSlider,
-      Positioned(
-        top: 22,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: map<Widget>(
-              widget.items,
-              (index, url) {
+    return Stack(
+      children: [
+        CarouselSlider(
+          items: widget.items,
+          carouselController: controller,
+          options: CarouselOptions(
+            enableInfiniteScroll: false,
+            height: MediaQuery.of(context).size.height,
+            viewportFraction: 0.99,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            },
+          ),
+        ),
+        Positioned(
+          top: 22,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: map<Widget>(widget.items, (index, url) {
                 return Container(
                   width: 8.0,
                   height: 8.0,
                   margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _current == index
-                          ? Color.fromRGBO(0, 0, 0, 0.9)
-                          : Color.fromRGBO(0, 0, 0, 0.4)),
+                    shape: BoxShape.circle,
+                    color: _current == index
+                        ? Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
                 );
-              },
+              }),
             ),
           ),
         ),
-      ),
-      Positioned(
-        bottom: 0,
-        child: Container(
+        Positioned(
+          bottom: 0,
+          child: Container(
             width: MediaQuery.of(context).size.width,
             padding: UIHelper.marginSymmetric(10, 15),
             color: Colors.white,
@@ -105,8 +109,10 @@ class _CarouselAboutState extends State<CarouselAbout> {
                             onTap: () {
                               changeIndex(-1);
                             },
-                            child: Icon(Icons.arrow_back_ios,
-                                color: Colors.black54),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black54,
+                            ),
                           )
                         : Paragraft(
                             text: "",
@@ -119,22 +125,24 @@ class _CarouselAboutState extends State<CarouselAbout> {
                 Row(
                   children: <Widget>[
                     InkWell(
-                        onTap: () {
-                          changeIndex(1);
-                        },
-                        child: _current < widget.items.length - 1
-                            ? Icon(Icons.arrow_forward_ios,
-                                color: Colors.black54)
-                            : Paragraft(
-                                text: "LOGIN NOW",
-                                textStyle: textMedium,
-                                fontSize: 20,
-                              ))
+                      onTap: () {
+                        changeIndex(1);
+                      },
+                      child: _current < widget.items.length - 1
+                          ? Icon(Icons.arrow_forward_ios, color: Colors.black54)
+                          : Paragraft(
+                              text: "LOGIN NOW",
+                              textStyle: textMedium,
+                              fontSize: 20,
+                            ),
+                    ),
                   ],
                 ),
               ],
-            )),
-      )
-    ]);
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

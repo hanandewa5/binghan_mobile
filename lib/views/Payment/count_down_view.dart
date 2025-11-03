@@ -9,58 +9,58 @@ import 'package:binghan_mobile/views/base_view.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CountDownView extends StatefulWidget {
-  const CountDownView({Key key}) : super(key: key);
+  const CountDownView({super.key});
 
   @override
-  _CountDownViewState createState() => _CountDownViewState();
+  State<CountDownView> createState() => _CountDownViewState();
 }
 
 class _CountDownViewState extends State<CountDownView> {
   @override
   Widget build(BuildContext context) {
-    Color _bgColor = Theme.of(context).backgroundColor;
+    Color bgColor = Theme.of(context).scaffoldBackgroundColor;
     return BaseView<CountDownViewModal>(
-        onModelReady: (model) {
-          model.initCount();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          return WillPopScope(
-            onWillPop: model.goToRoot,
-            child: Scaffold(
-                backgroundColor: _bgColor,
-                appBar: AppBar(
-                  elevation: 0,
-                  centerTitle: true,
-                  title: Text(
-                    "Pembayaran",
-                    style: textMedium,
+      onModelReady: (model) {
+        model.initCount();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        return WillPopScope(
+          onWillPop: model.goToRoot,
+          child: Scaffold(
+            backgroundColor: bgColor,
+            appBar: AppBar(
+              elevation: 0,
+              centerTitle: true,
+              title: Text("Pembayaran", style: textMedium),
+            ),
+            body: model.listInvoiceCallback?.method == "BCA"
+                ? CartList(model: model)
+                : WebViewWidget(
+                    controller: WebViewController()
+                      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                      ..setBackgroundColor(bgColor)
+                      ..loadRequest(
+                        Uri.parse(model.listInvoiceCallback?.urlInvoice ?? ''),
+                      ),
                   ),
-                ),
-                body: model.listInvoiceCallback.method == "BCA"
-                    ? CartList(model: model)
-                    : WebView(
-                        initialUrl: Uri.encodeFull(model.listInvoiceCallback.urlInvoice),
-                        javascriptMode: JavascriptMode.unrestricted,
-                      )),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
 
 class CartList extends StatelessWidget {
   final CountDownViewModal model;
 
-  const CartList({
-    this.model,
-    Key key,
-  }) : super(key: key);
+  const CartList({required this.model, super.key});
 
   @override
   Widget build(BuildContext context) {
     // bool isExpanded = false;
 
-    Color _colorAccent = Theme.of(context).accentColor;
+    Color colorAccent = Theme.of(context).colorScheme.secondary;
     return Container(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -70,8 +70,9 @@ class CartList extends StatelessWidget {
             margin: UIHelper.marginSymmetric(10, 0),
             padding: UIHelper.marginSymmetric(20, 10),
             decoration: BoxDecoration(
-                color: Colors.black12,
-                border: Border.all(width: 1, color: _colorAccent)),
+              color: Colors.black12,
+              border: Border.all(width: 1, color: colorAccent),
+            ),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,31 +83,16 @@ class CartList extends StatelessWidget {
                 ),
                 UIHelper.verticalSpaceSmall(),
                 Text(
-                    "${model.hour} Jam : ${model.minute} Menit : ${model.second} Detik"),
+                  "${model.hour} Jam : ${model.minute} Menit : ${model.second} Detik",
+                ),
                 UIHelper.verticalSpaceSmall(),
                 // Text("Sebelum hari kamis, 20 Februari 2020, 11:30 WIB",
                 //     style: textThin, textAlign: TextAlign.center)
                 Text(
-                    "Sebelum hari " +
-                        formatDate(
-                            DateTime.now().add(Duration(days: 1)),
-                            [
-                              DD,
-                              ', ',
-                              dd,
-                              ' ',
-                              MM,
-                              ' ',
-                              yyyy,
-                              ', ',
-                              HH,
-                              ':',
-                              mm
-                            ],
-                            locale: IndoLocale()) +
-                        " WIB",
-                    style: textThin,
-                    textAlign: TextAlign.center)
+                  "Sebelum hari ${formatDate(DateTime.now().add(Duration(days: 1)), [DD, ', ', dd, ' ', MM, ' ', yyyy, ', ', HH, ':', mm], locale: IndoLocale())} WIB",
+                  style: textThin,
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
           ),
@@ -119,52 +105,52 @@ class CartList extends StatelessWidget {
                 width: 90,
                 height: 70,
                 fit: BoxFit.cover,
-                image: NetworkImage(model.paymentMethod.logoUrl),
+                image: NetworkImage(model.paymentMethod?.logoUrl ?? ''),
               ),
               UIHelper.horizontalSpaceMedium(),
               Paragraft(
-                text: "${model.listInvoiceCallback.urlInvoice}",
+                text: "${model.listInvoiceCallback?.urlInvoice}",
                 fontSize: 18,
-              )
+              ),
             ],
           ),
           UIHelper.verticalSpaceMedium(),
           InkWell(
             onTap: () {
               return model.clickToCopy(
-                  context, "${model.listInvoiceCallback.urlInvoice}");
+                context,
+                "${model.listInvoiceCallback?.urlInvoice}",
+              );
             },
             child: Paragraft(
               text: "Salin no rek",
-              textStyle: textThin
-                  .merge(TextStyle(decoration: TextDecoration.underline)),
+              textStyle: textThin.merge(
+                TextStyle(decoration: TextDecoration.underline),
+              ),
             ),
           ),
           UIHelper.verticalSpaceMedium(),
-          Divider(
-            height: 1,
-            color: Colors.black,
-          ),
+          Divider(height: 1, color: Colors.black),
+          UIHelper.verticalSpaceMedium(),
+          Paragraft(text: "Jumlah yang harus dibayar:", color: Colors.black87),
           UIHelper.verticalSpaceMedium(),
           Paragraft(
-            text: "Jumlah yang harus dibayar:",
-            color: Colors.black87,
-          ),
-          UIHelper.verticalSpaceMedium(),
-          Paragraft(
-            text: formatIDR(model.listInvoiceCallback.total),
-            color: _colorAccent,
+            text: formatIDR(model.listInvoiceCallback?.total ?? 0),
+            color: colorAccent,
           ),
           UIHelper.verticalSpaceMedium(),
           InkWell(
             onTap: () {
               model.clickToCopy(
-                  context, model.listInvoiceCallback.total.toString());
+                context,
+                model.listInvoiceCallback?.total.toString() ?? '',
+              );
             },
             child: Paragraft(
               text: "Salin jumlah",
-              textStyle: textThin
-                  .merge(TextStyle(decoration: TextDecoration.underline)),
+              textStyle: textThin.merge(
+                TextStyle(decoration: TextDecoration.underline),
+              ),
             ),
           ),
           UIHelper.verticalSpaceMedium(),
@@ -181,14 +167,17 @@ class CartList extends StatelessWidget {
     );
   }
 
-  Widget rowDetail(
-      {String first, String second, Color secondColor: Colors.black}) {
+  Widget rowDetail({
+    String? first,
+    String? second,
+    Color secondColor = Colors.black,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(first),
+        Text(first ?? ''),
         Text(
-          second,
+          second ?? '',
           style: textThin.merge(TextStyle(color: secondColor)),
         ),
       ],

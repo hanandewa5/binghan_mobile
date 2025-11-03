@@ -3,18 +3,21 @@ import 'package:binghan_mobile/views/_helpers/color_helper.dart';
 import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:binghan_mobile/views/_widgets/Layout/carouselWithIndicator.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:binghan_mobile/views/_helpers/ui_helpers.dart';
 import 'package:binghan_mobile/viewmodels/dashboard_viewmodel.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 import 'package:binghan_mobile/models/carousel.dart';
 
 class DashboardView extends StatefulWidget {
+  const DashboardView({super.key});
+
   @override
-  _DashboardViewState createState() => _DashboardViewState();
+  State<DashboardView> createState() => _DashboardViewState();
 }
 
-class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveClientMixin {
+class _DashboardViewState extends State<DashboardView>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -27,79 +30,75 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
       },
       statusBarTheme: Brightness.dark,
       builder: (context, model, child) => Scaffold(
-          backgroundColor: Colors.white,
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: model.goToWebsite,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Paragraft(
-                    text: "Website",
-                    color: Colors.white,
-                  ),
+        backgroundColor: Colors.white,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            InkWell(
+              onTap: model.goToWebsite,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Paragraft(text: "Website", color: Colors.white),
+              ),
+            ),
+            InkWell(
+              onTap: model.goToAddNewMember,
+              child: Container(
+                margin: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Paragraft(
+                  text: "Daftar Member Baru",
+                  color: Colors.white,
                 ),
               ),
-              InkWell(
-                onTap: model.goToAddNewMember,
-                child: Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Paragraft(
-                    text: "Daftar Member Baru",
-                    color: Colors.white,
-                  ),
-                ),
+            ),
+          ],
+        ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(MyStrings.textHome),
+          actions: <Widget>[
+            Badge(
+              position: BadgePosition.topEnd(end: 0, top: 0),
+              showBadge: model.notifiBadgeCounter > 0 && true,
+              badgeContent: Text(
+                "${model.notifiBadgeCounter}",
+                style: MyColors.ColorInputWhite.merge(textSmall),
               ),
-            ],
-          ),
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(MyStrings.textHome),
-            actions: <Widget>[
-              Badge(
-                position: BadgePosition.topRight(right: 0, top: 0),
-                showBadge: model.notifiBadgeCounter > 0 && true,
-                badgeContent: Text(
-                  "${model.notifiBadgeCounter}",
-                  style: MyColors.ColorInputWhite.merge(textSmall),
-                ),
-                child: IconButton(
-                  onPressed: model.goToNotif,
-                  icon: Icon(Icons.notifications),
-                ),
+              child: IconButton(
+                onPressed: model.goToNotif,
+                icon: Icon(Icons.notifications),
               ),
-              Badge(
-                position: BadgePosition.topRight(right: 0, top: 0),
-                showBadge: model.cartBadgeCounter > 0 && true,
-                badgeContent: Text(
-                  model.cartBadgeCounter.toString(),
-                  style: MyColors.ColorInputWhite.merge(textSmall),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    model.goToCart();
-                  },
-                  icon: Icon(Icons.shopping_cart),
-                ),
+            ),
+            Badge(
+              position: BadgePosition.topEnd(end: 0, top: 0),
+              showBadge: model.cartBadgeCounter > 0 && true,
+              badgeContent: Text(
+                model.cartBadgeCounter.toString(),
+                style: MyColors.ColorInputWhite.merge(textSmall),
               ),
-              SizedBox(
-                width: 10,
+              child: IconButton(
+                onPressed: () {
+                  model.goToCart();
+                },
+                icon: Icon(Icons.shopping_cart),
               ),
-            ],
-          ),
-          body: model.busy
-              ? Center(child: CircularProgressIndicator())
-              : new BuildCard(model: model)),
+            ),
+            SizedBox(width: 10),
+          ],
+        ),
+        body: model.busy
+            ? Center(child: CircularProgressIndicator())
+            : new BuildCard(model: model),
+      ),
     );
   }
 }
@@ -107,17 +106,14 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
 class BuildCard extends StatefulWidget {
   final DashboardViewModel model;
 
-  const BuildCard({
-    this.model,
-    Key key,
-  }) : super(key: key);
+  const BuildCard({required this.model, super.key});
 
   @override
-  _BuildCardState createState() => _BuildCardState();
+  State<BuildCard> createState() => _BuildCardState();
 }
 
 class _BuildCardState extends State<BuildCard> {
-  int touchedIndex;
+  int? touchedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -132,17 +128,16 @@ class _BuildCardState extends State<BuildCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // UIHelper.verticalSpaceMedium(),
-            (model.listCarousel.length > 0) ? carouselImage(model.listCarousel) : Text(""),
+            (model.listCarousel.length > 0)
+                ? carouselImage(model.listCarousel)
+                : Text(""),
             UIHelper.verticalSpaceMedium(),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Dashboard",
-                    style: MyColors.ColorInputPrimary,
-                  ),
+                  Text("Dashboard", style: MyColors.ColorInputPrimary),
                   Container(
                     height: 1,
                     width: double.infinity,
@@ -260,13 +255,13 @@ class _BuildCardState extends State<BuildCard> {
                                   style: MyColors.ColorInputAccent,
                                 ),
                                 Text(
-                                  "${formatIDR(model.bonusPV)}",
+                                  "${model.bonusPV} PV",
                                   style: MyColors.ColorInputAccent,
                                 ),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -291,18 +286,17 @@ class _BuildCardState extends State<BuildCard> {
       return result;
     }
 
-    final List child = map<Widget>(
-      carouselList,
-      (index, ListCarousel i) {
-        return Card(
-          margin: EdgeInsets.all(5.0),
-          elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            child: Stack(children: <Widget>[
+    final child = map<Widget>(carouselList, (index, ListCarousel i) {
+      return Card(
+        margin: EdgeInsets.all(5.0),
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          child: Stack(
+            children: <Widget>[
               FadeInImage(
-                image: NetworkImage(i.fotoUrl),
+                image: NetworkImage(i.fotoUrl ?? ''),
                 placeholder: AssetImage('lib/_assets/images/loading.gif'),
                 fit: BoxFit.cover,
                 width: double.infinity,
@@ -314,12 +308,15 @@ class _BuildCardState extends State<BuildCard> {
                 right: 0.0,
                 child: Container(
                   color: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 20.0,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Paragraft(
-                        text: i.name,
+                        text: i.name ?? '',
                         textStyle: textThinLarge,
                         color: Colors.white,
                       ),
@@ -327,13 +324,11 @@ class _BuildCardState extends State<BuildCard> {
                   ),
                 ),
               ),
-            ]),
+            ],
           ),
-        );
-      },
-    ).toList();
-    return new CarouselWithIndicator(
-      items: child,
-    );
+        ),
+      );
+    }).toList();
+    return CarouselWithIndicator(items: child);
   }
 }

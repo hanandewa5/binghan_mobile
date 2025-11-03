@@ -8,7 +8,7 @@ import 'package:binghan_mobile/views/base_view.dart';
 import 'package:binghan_mobile/_constants/route_paths.dart' as routes;
 
 class EditProfileList extends StatefulWidget {
-  const EditProfileList({Key key}) : super(key: key);
+  const EditProfileList({super.key}) ;
 
   @override
   _EditProfileListState createState() => _EditProfileListState();
@@ -37,7 +37,7 @@ class _EditProfileListState extends State<EditProfileList> {
         statusBarTheme: Brightness.dark,
         builder: (context, model, child) {
           return Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
                 centerTitle: true,
                 title: Text(MyStrings.textProfile),

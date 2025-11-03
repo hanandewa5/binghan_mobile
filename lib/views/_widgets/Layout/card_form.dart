@@ -5,10 +5,10 @@ class CardForm extends StatelessWidget {
   final double padding;
 
   const CardForm({
-    Key key, 
+    super.key, 
     required this.child,
     this.padding = 20
-  }) : super(key: key);
+  }) ;
 
   @override
   Widget build(BuildContext context) {

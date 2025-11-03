@@ -216,16 +216,20 @@ class NetworkViewModel extends BaseModel {
     }
   }
 
-  void setStartDate(DateTime date) {
-    startDate = date;
-    getGroupSales();
-    refresh();
+  void setStartDate(DateTime? date) {
+    if (date != null) {
+      startDate = date;
+      getGroupSales();
+      refresh();
+    }
   }
 
-  void setEndDate(DateTime date) {
-    endDate = date;
-    getGroupSales();
-    refresh();
+  void setEndDate(DateTime? date) {
+    if (date != null) {
+      endDate = date;
+      getGroupSales();
+      refresh();
+    }
   }
 
   void searchClick() {

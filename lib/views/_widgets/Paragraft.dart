@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 class Paragraft extends StatelessWidget {
   final String text;
-  final TextStyle textStyle;
-  final Color color;
-  final double fontSize;
-  final TextOverflow textOverflow;
-  final TextAlign textAlign;
+  final TextStyle? textStyle;
+  final Color? color;
+  final double? fontSize;
+  final TextOverflow? textOverflow;
+  final TextAlign? textAlign;
 
-  Paragraft(
-      {required this.text,
-      this.textStyle,
-      this.color,
-      this.fontSize,
-      this.textAlign,
-      this.textOverflow = TextOverflow.clip,
-      Key key})
-      : super(key: key);
+  const Paragraft({
+    required this.text,
+    this.textStyle,
+    this.color,
+    this.fontSize,
+    this.textAlign,
+    this.textOverflow = TextOverflow.clip,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,8 @@ class Paragraft extends StatelessWidget {
       textAlign: textAlign,
       overflow: textOverflow,
       style: TextStyle(
-              color: color != null ? color : Theme.of(context).primaryColor)
-          .merge(textStyle)
-          .merge(TextStyle(fontSize: fontSize)),
+        color: color ?? Theme.of(context).primaryColor,
+      ).merge(textStyle).merge(TextStyle(fontSize: fontSize)),
     );
   }
 }

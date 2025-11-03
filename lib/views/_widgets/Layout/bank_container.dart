@@ -6,11 +6,11 @@ import 'bank_child.dart';
 
 class BankContainer extends StatelessWidget {
   const BankContainer({
-    Key key,
+    super.key,
     required this.model,
     required this.list,
     required this.label,
-  }) : super(key: key);
+  }) ;
 
   final PaymentViewModel model;
   final List<ListBankChild> list;

@@ -10,10 +10,10 @@ import 'package:binghan_mobile/viewmodels/auth_viewmodel.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class ResetPass extends StatefulWidget {
-  const ResetPass({Key key}) : super(key: key);
+  const ResetPass({super.key});
 
   @override
-  _ResetPassState createState() => _ResetPassState();
+  State<ResetPass> createState() => _ResetPassState();
 }
 
 class _ResetPassState extends State<ResetPass> {
@@ -26,95 +26,85 @@ class _ResetPassState extends State<ResetPass> {
       },
       statusBarTheme: Brightness.light,
       builder: (context, model, child) => Scaffold(
-          backgroundColor: MyColors.ColorBackground,
-          body: Content(
-            child: buildContainer(model, context),
-          )),
+        backgroundColor: MyColors.ColorBackground,
+        body: Content(child: buildContainer(model, context)),
+      ),
     );
   }
 
   Container buildContainer(AuthViewModel model, BuildContext context) {
     return Container(
-        child: Column(
-      children: <Widget>[
-        Flexible(
-          flex: 1,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Image.asset("lib/_assets/images/logo.png"),
-                ),
-                Text(
-                  "Reset Password",
-                  style: headerStyle,
-                )
-              ],
+      child: Column(
+        children: <Widget>[
+          Flexible(
+            flex: 1,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Image.asset("lib/_assets/images/logo.png"),
+                  ),
+                  Text("Reset Password", style: headerStyle),
+                ],
+              ),
             ),
           ),
-        ),
-        Flexible(
-          flex: 1,
-          child: Center(
-            child: CardForm(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        InputPassword(
-                          name: "New Password",
-                        ),
-                        InputPassword(
-                          name: "Confirm Password",
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        RaisedGradientButton(
-                          child: Text(
-                            "Process",
-                            style: btnTextWhite,
+          Flexible(
+            flex: 1,
+            child: Center(
+              child: CardForm(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          InputPassword(name: "New Password"),
+                          InputPassword(name: "Confirm Password"),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          RaisedGradientButton(
+                            child: Text("Process", style: btnTextWhite),
+                            width: MediaQuery.of(context).size.width * 0.83,
+                            onPressed: () {
+                              // model.setProcess();
+                            },
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                Color(0xFFBEA236),
+                                Color(0xFFBEA236),
+                              ],
+                            ),
                           ),
-                          width: MediaQuery.of(context).size.width * 0.83,
-                          onPressed: () {
-                            // model.setProcess();
-                          },
-                          gradient: LinearGradient(
-                            colors: <Color>[
-                              Color(0xFFBEA236),
-                              Color(0xFFBEA236)
-                            ],
+                          UIHelper.verticalSpaceSmall(),
+                          RaisedGradientButton(
+                            child: Text("Cancel", style: btnTextWhite),
+                            width: MediaQuery.of(context).size.width * 0.83,
+                            onPressed: () {
+                              model.goBack();
+                            },
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                Colors.redAccent,
+                                Colors.redAccent,
+                              ],
+                            ),
                           ),
-                        ),
-                        UIHelper.verticalSpaceSmall(),
-                        RaisedGradientButton(
-                          child: Text(
-                            "Cancel",
-                            style: btnTextWhite,
-                          ),
-                          width: MediaQuery.of(context).size.width * 0.83,
-                          onPressed: () {
-                            model.goBack();
-                          },
-                          gradient: LinearGradient(
-                            colors: <Color>[Colors.redAccent, Colors.redAccent],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }

@@ -8,7 +8,7 @@ class InputDate<T> extends StatefulWidget {
   final String? name;
   final String? value;
   final bool? isError;
-  final Function(T?)? onChange;
+  final void Function(T?)? onChange;
   final bool? isExpanded;
   final DateTime? initialDate;
   final DateTime? currDate;

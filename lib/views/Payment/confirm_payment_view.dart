@@ -9,88 +9,83 @@ import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class ConfirmPaymentView extends StatefulWidget {
-  const ConfirmPaymentView({Key key}) : super(key: key);
+  const ConfirmPaymentView({super.key});
 
   @override
-  _ConfirmPaymentStateView createState() => _ConfirmPaymentStateView();
+  State<ConfirmPaymentView> createState() => _ConfirmPaymentStateView();
 }
 
 class _ConfirmPaymentStateView extends State<ConfirmPaymentView> {
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
-    Color _bgColor = Theme.of(context).backgroundColor;
+    var width = MediaQuery.of(context).size.width;
+    Color bgColor = Theme.of(context).scaffoldBackgroundColor;
     return BaseView<PaymentViewModel>(
-        onModelReady: (model) {
-          // model.initPayment();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          var _colorPrimary = Theme.of(context).primaryColor;
+      onModelReady: (model) {
+        // model.initPayment();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        var colorPrimary = Theme.of(context).primaryColor;
 
-          return Scaffold(
-              backgroundColor: _bgColor,
-              bottomNavigationBar: new BottomBar(
-                width: _width,
-                colorPrimary: _colorPrimary,
-                model: model,
-              ),
-              appBar: AppBar(
-                elevation: 0,
-                centerTitle: true,
-                title: Text(
-                  "Konfirmasi Pembayaran",
-                  style: textMedium,
+        return Scaffold(
+          backgroundColor: bgColor,
+          bottomNavigationBar: new BottomBar(
+            width: width,
+            colorPrimary: colorPrimary,
+            model: model,
+          ),
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            title: Text("Konfirmasi Pembayaran", style: textMedium),
+          ),
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    (model.busy)
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height - 80,
+                            child: Center(child: ColorLoader2()),
+                          )
+                        : Column(children: <Widget>[CartList(model: model)]),
+                  ],
                 ),
               ),
-              body: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Container(
-                        child: Column(
-                      children: <Widget>[
-                        (model.busy)
-                            ? Container(
-                                height: MediaQuery.of(context).size.height - 80,
-                                child: Center(
-                                  child: ColorLoader2(),
-                                ),
-                              )
-                            : Column(
-                                children: <Widget>[CartList(model: model)],
-                              ),
-                      ],
-                    )),
-                  ),
-                ],
-              ));
-        });
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
 class BottomBar extends StatelessWidget {
   const BottomBar({
-    Key key,
-    required double width,
-    required Color colorPrimary,
-    this.model,
-  })  : _width = width,
-        _colorPrimary = colorPrimary,
-        super(key: key);
+    super.key,
+    required this.width,
+    required this.colorPrimary,
+    required this.model,
+  });
 
-  final double _width;
-  final Color _colorPrimary;
+  final double width;
+  final Color colorPrimary;
   final PaymentViewModel model;
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      width: _width,
+    return Container(
+      width: width,
       height: 80.0,
       padding: UIHelper.marginSymmetric(15, 20),
       decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(offset: Offset(0, -1), color: MyColors.ColorShadow)]),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(offset: Offset(0, -1), color: MyColors.ColorShadow),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -101,25 +96,25 @@ class BottomBar extends StatelessWidget {
               Paragraft(
                 text: "Sub Total :",
                 textStyle: textThinBold,
-                color: _colorPrimary,
+                color: colorPrimary,
               ),
               Paragraft(
-                text: formatIDR(model.getGrandTotal()),
+                // text: formatIDR(model.getGrandTotal()),
+                text: model.getGrandTotal().toString(),
                 textStyle: textThinBold,
-                color: _colorPrimary,
+                color: colorPrimary,
               ),
             ],
           ),
           UIHelper.horizontalSpaceSmall(),
-          RaisedButton(
-            padding: UIHelper.marginSymmetric(15, 30),
-            color: _colorPrimary,
-            child: Paragraft(
-              text: "Bayar",
-              color: Colors.white,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: UIHelper.marginSymmetric(15, 30),
+              foregroundColor: colorPrimary,
             ),
             onPressed: model.screenLoading || model.busy ? null : model.pay,
-          )
+            child: Paragraft(text: "Bayar", color: Colors.white),
+          ),
         ],
       ),
     );
@@ -129,91 +124,112 @@ class BottomBar extends StatelessWidget {
 class CartList extends StatelessWidget {
   final PaymentViewModel model;
 
-  const CartList({
-    this.model,
-    Key key,
-  }) : super(key: key);
+  const CartList({required this.model, super.key});
 
   @override
   Widget build(BuildContext context) {
     // bool isExpanded = false;
 
-    Color _colorAccent = Theme.of(context).accentColor;
+    Color colorAccent = Theme.of(context).colorScheme.secondary;
     return Column(
       children: <Widget>[
         Card(
-            child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Detail Tagihan",
-                style: textLarge,
-              ),
-              UIHelper.verticalSpaceMedium(),
-              Text("Pembayaran"),
-              UIHelper.horizontalLine(
-                  width: double.infinity, margin: EdgeInsets.symmetric(vertical: 10)),
-              rowDetail(first: "Total Harga Barang", second: formatIDR(model.subTotal)),
-              rowDetail(first: "Biaya Handling", second: formatIDR(model.handlingCost)),
-              rowDetail(first: "Total", second: formatIDR(model.getTotal())),
-              UIHelper.horizontalLine(
-                  width: double.infinity, margin: EdgeInsets.symmetric(vertical: 5)),
-              rowDetail(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Detail Tagihan", style: textLarge),
+                UIHelper.verticalSpaceMedium(),
+                Text("Pembayaran"),
+                UIHelper.horizontalLine(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                ),
+                rowDetail(
+                  first: "Total Harga Barang",
+                  // second: formatIDR(model.subTotal),
+                  second: formatIDR(model.subTotal),
+                ),
+                rowDetail(
+                  first: "Biaya Handling",
+                  second: formatIDR(model.handlingCost),
+                ),
+                rowDetail(first: "Total", second: formatIDR(model.getTotal())),
+                UIHelper.horizontalLine(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                ),
+                rowDetail(
                   first: "POP Discount",
                   second: "- ${formatIDR(model.popDiscount)}",
-                  secondColor: Colors.redAccent),
-              rowDetail(
+                  secondColor: Colors.redAccent,
+                ),
+                rowDetail(
                   first: "Voucher Discount",
                   second: "- ${formatIDR(model.vDiscount)}",
-                  secondColor: Colors.redAccent),
-              rowDetail(first: "Sub Total", second: formatIDR(model.getSubTotal())),
-              UIHelper.horizontalLine(
-                  width: double.infinity, margin: EdgeInsets.symmetric(vertical: 5)),
-              rowDetail(first: "Total Ongkos Kirim", second: formatIDR(model.totalOngkir)),
-              rowDetail(first: "PPN (11%)", second: formatIDR(model.getPPN())),
-              UIHelper.horizontalLine(
-                  width: double.infinity, margin: EdgeInsets.symmetric(vertical: 10)),
-              rowDetail(
+                  secondColor: Colors.redAccent,
+                ),
+                rowDetail(
+                  first: "Sub Total",
+                  second: formatIDR(model.getSubTotal()),
+                ),
+                UIHelper.horizontalLine(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                ),
+                rowDetail(
+                  first: "Total Ongkos Kirim",
+                  second: formatIDR(model.totalOngkir),
+                ),
+                rowDetail(
+                  first: "PPN (11%)",
+                  second: formatIDR(model.getPPN()),
+                ),
+                UIHelper.horizontalLine(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                ),
+                rowDetail(
                   first: "Total Tagihan",
                   second: formatIDR(model.getGrandTotal()),
-                  secondColor: _colorAccent),
-              if (model.deliveryMethod == "Antar")
-                Paragraft(
-                  text:
-                      "${model.courier.name.toUpperCase()} - ${model.courierService.description.toUpperCase()}",
-                  color: Colors.black54,
-                  textStyle: textThin,
-                )
-            ],
+                  secondColor: colorAccent,
+                ),
+                if (model.deliveryMethod == "Antar")
+                  Paragraft(
+                    text:
+                        "${model.courier?.name?.toUpperCase()} - ${model.courierService?.description?.toUpperCase()}",
+                    color: Colors.black54,
+                    textStyle: textThin,
+                  ),
+              ],
+            ),
           ),
-        )),
+        ),
         Card(
-            child: Container(
-          padding: const EdgeInsets.all(10.0),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Paragraft(
-                text: "Metode Pembayaran",
-              ),
-              Paragraft(
-                text: model.paymentMethod.name,
-                textStyle: textThin,
-                color: Colors.black87,
-              )
-            ],
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Paragraft(text: "Metode Pembayaran"),
+                Paragraft(
+                  text: model.paymentMethod?.name ?? '',
+                  textStyle: textThin,
+                  color: Colors.black87,
+                ),
+              ],
+            ),
           ),
-        )),
+        ),
         Card(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.separated(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: model.kcData.orderDetail.length,
+              itemCount: model.kcData?.orderDetail?.length ?? 0,
               separatorBuilder: (context, i) {
                 return Divider(height: 1, thickness: 2);
               },
@@ -222,18 +238,21 @@ class CartList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     UIHelper.verticalSpaceSmall(),
-                    Container(
-                      child: Paragraft(
-                        text:
-                            "Order for : ${model.kcData.orderDetail[index].binghanId} - ${model.kcData.orderDetail[index].name}",
-                      ),
+                    Paragraft(
+                      text:
+                          "Order for : ${model.kcData?.orderDetail?[index].binghanId} - ${model.kcData?.orderDetail?[index].name}",
                     ),
                     ListView.builder(
-                      itemCount: model.kcData.orderDetail[index].itemList.length,
+                      itemCount:
+                          model.kcData?.orderDetail?[index].itemList?.length ??
+                          0,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
-                        return itemList(context, model.kcData.orderDetail[index].itemList[i]);
+                        return itemList(
+                          context,
+                          model.kcData?.orderDetail?[index].itemList?[i],
+                        );
                       },
                     ),
                   ],
@@ -241,12 +260,12 @@ class CartList extends StatelessWidget {
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
-  Widget itemList(BuildContext context, KonfirmCallbackItemList listCart) {
+  Widget itemList(BuildContext context, KonfirmCallbackItemList? listCart) {
     // var _width = MediaQuery.of(context).size.width;
     return Container(
       margin: UIHelper.marginVertical(10),
@@ -259,16 +278,19 @@ class CartList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               rowDetail2(
-                  context: context,
-                  first: "${listCart.name}",
-                  second: formatIDR((listCart.price * listCart.qty))),
+                context: context,
+                first: "${listCart?.name}",
+                second: formatIDR(
+                  (listCart?.price ?? 0) * (listCart?.qty ?? 0),
+                ),
+              ),
               Paragraft(
-                text: "${listCart.qty} X ${formatIDR(listCart.price)}",
+                text: "${listCart?.qty} X ${formatIDR(listCart?.price ?? 0)}",
                 color: Colors.black54,
                 textStyle: textThin,
               ),
             ],
-          )
+          ),
           // UIHelper.horizontalSpaceSmall(),
           // Container(
           //   width: _width * 0.2,
@@ -342,37 +364,41 @@ class CartList extends StatelessWidget {
     );
   }
 
-  Widget rowDetail({String first, String second, Color secondColor: Colors.black}) {
+  Widget rowDetail({
+    String? first,
+    String? second,
+    Color secondColor = Colors.black,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(first),
+        Text(first ?? ''),
         Text(
-          second,
+          second ?? '',
           style: textThin.merge(TextStyle(color: secondColor)),
         ),
       ],
     );
   }
 
-  Widget rowDetail2(
-      {BuildContext context, String first, String second, Color secondColor: Colors.black}) {
-    var _width = MediaQuery.of(context).size.width;
+  Widget rowDetail2({
+    required BuildContext context,
+    String? first,
+    String? second,
+    Color secondColor = Colors.black,
+  }) {
+    var width = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         SizedBox(
-          width: _width * 0.6,
-          child: Text(
-            first,
-            overflow: TextOverflow.clip,
-            maxLines: 1,
-          ),
+          width: width * 0.6,
+          child: Text(first ?? '', overflow: TextOverflow.clip, maxLines: 1),
         ),
         SizedBox(
-          width: _width * 0.3,
+          width: width * 0.3,
           child: Text(
-            second,
+            second ?? '',
             textAlign: TextAlign.right,
             overflow: TextOverflow.clip,
             style: textThin.merge(TextStyle(color: secondColor)),

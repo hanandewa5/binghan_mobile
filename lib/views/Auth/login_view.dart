@@ -13,10 +13,10 @@ import 'package:binghan_mobile/viewmodels/auth_viewmodel.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key key}) : super(key: key);
+  const LoginView({super.key});
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
@@ -39,156 +39,149 @@ class _LoginViewState extends State<LoginView> {
       },
       statusBarTheme: Brightness.light,
       builder: (context, model, child) => Scaffold(
-          backgroundColor: MyColors.ColorBackground,
-          body: Content(
-            child: model.screenLoading ? Splash() : buildContainer(model, context),
-          )),
+        backgroundColor: MyColors.ColorBackground,
+        body: Content(
+          child: model.screenLoading
+              ? Splash()
+              : buildContainer(model, context),
+        ),
+      ),
     );
   }
 
   Container buildContainer(AuthViewModel model, BuildContext context) {
     return Container(
-        child: ListView(
-      children: <Widget>[
-        UIHelper.verticalSpaceLarge(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width * 0.3,
-              child: Image.asset("lib/_assets/images/logo.png"),
-            ),
-            UIHelper.verticalSpaceLarge(),
-            Text(
-              "Login",
-              style: headerStyle,
-            )
-          ],
-        ),
-        CardForm(
-          child: Form(
-            key: _formKey,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      InputText(
-                        name: "Username",
-                        controller: _binghanId,
-                      ),
-                      UIHelper.verticalSpaceMedium(),
-                      InputPassword(
-                        controller: _password,
-                        name: "Password",
-                      ),
-                      UIHelper.verticalSpaceMedium(),
-                    ],
-                  ),
-                  RaisedGradientButton(
-                    child: Container(
-                      child: model.busy
-                          ? CircularProgressIndicator(
-                              backgroundColor: MyColors.ColorPrimary,
-                            )
-                          : Text(
-                              "Login",
-                              style: btnTextWhite,
-                            ),
+      child: ListView(
+        children: <Widget>[
+          UIHelper.verticalSpaceLarge(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: Image.asset("lib/_assets/images/logo.png"),
+              ),
+              UIHelper.verticalSpaceLarge(),
+              Text("Login", style: headerStyle),
+            ],
+          ),
+          CardForm(
+            child: Form(
+              key: _formKey,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        InputText(name: "Username", controller: _binghanId),
+                        UIHelper.verticalSpaceMedium(),
+                        InputPassword(controller: _password, name: "Password"),
+                        UIHelper.verticalSpaceMedium(),
+                      ],
                     ),
-                    width: MediaQuery.of(context).size.width * 0.83,
-                    onPressed: model.busy
-                        ? null
-                        : () {
-                            if (_formKey.currentState.validate()) {
-                              model.login(_binghanId.text, _password.text);
-                            }
+                    RaisedGradientButton(
+                      child: Container(
+                        child: model.busy
+                            ? CircularProgressIndicator(
+                                backgroundColor: MyColors.ColorPrimary,
+                              )
+                            : Text("Login", style: btnTextWhite),
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.83,
+                      onPressed: model.busy
+                          ? null
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                model.login(_binghanId.text, _password.text);
+                              }
+                            },
+                      gradient: LinearGradient(
+                        colors: <Color>[Color(0xFFBEA236), Color(0xFFBEA236)],
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        InkWell(
+                          child: Text(
+                            "Back to Homepage",
+                            style: textSmallWhite,
+                          ),
+                          onTap: () {
+                            model.goToWeb(context);
                           },
-                    gradient: LinearGradient(
-                      colors: <Color>[Color(0xFFBEA236), Color(0xFFBEA236)],
+                        ),
+                        UIHelper.verticalSpaceMedium(),
+                        InkWell(
+                          child: Text(
+                            "Forgot Password ? ",
+                            style: textMediumWhite,
+                          ),
+                          onTap: () {
+                            model.goToForgotPass();
+                          },
+                        ),
+                        // InkWell(
+                        //   child: Text(
+                        //     "Reset",
+                        //     style: textMediumWhite,
+                        //   ),
+                        //   onTap: () {
+                        //     model.goToResetPass();
+                        //   },
+                        // )
+                      ],
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      InkWell(
-                        child: Text(
-                          "Back to Homepage",
-                          style: textSmallWhite,
+                    UIHelper.verticalSpaceMedium(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Paragraft(
+                          text: "Kontak Layanan Pengaduan Konsumen",
+                          color: Colors.white,
+                          fontSize: 14,
                         ),
-                        onTap: () {
-                          model.goToWeb(context);
-                        },
-                      ),
-                      UIHelper.verticalSpaceMedium(),
-                      InkWell(
-                        child: Text(
-                          "Forgot Password ? ",
-                          style: textMediumWhite,
+                        Paragraft(
+                          text: "PT HONG RUI",
+                          color: Colors.white,
+                          fontSize: 14,
                         ),
-                        onTap: () {
-                          model.goToForgotPass();
-                        },
-                      ),
-                      // InkWell(
-                      //   child: Text(
-                      //     "Reset",
-                      //     style: textMediumWhite,
-                      //   ),
-                      //   onTap: () {
-                      //     model.goToResetPass();
-                      //   },
-                      // )
-                    ],
-                  ),
-                  UIHelper.verticalSpaceMedium(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Paragraft(
-                        text: "Kontak Layanan Pengaduan Konsumen",
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                      Paragraft(
-                        text: "PT HONG RUI",
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                      Paragraft(
-                        text: "Kontak : (021) 260 808 99",
-                        color: Colors.white,
-                        fontSize: 12,
-                      ),
-                      Paragraft(
-                        text: "Email : hongrui@binghan.id",
-                        color: Colors.white,
-                        fontSize: 12
-                      ),
-                      Paragraft(
-                        text: "Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga",
-                        color: Colors.white,
-                        fontSize: 12
-                      ),
-                      Paragraft(
-                        text: "Kementerian Perdagangan Republik Indonesia",
-                        color: Colors.white,
-                        fontSize: 12
-                      ),
-                      Paragraft(
-                        text: "Whatsapp : 0853 1111 1010",
-                        color: Colors.white,
-                        fontSize: 12
-                      ),
-                    ],
-                  )
-                ],
+                        Paragraft(
+                          text: "Kontak : (021) 260 808 99",
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        Paragraft(
+                          text: "Email : hongrui@binghan.id",
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        Paragraft(
+                          text:
+                              "Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga",
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        Paragraft(
+                          text: "Kementerian Perdagangan Republik Indonesia",
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        Paragraft(
+                          text: "Whatsapp : 0853 1111 1010",
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }

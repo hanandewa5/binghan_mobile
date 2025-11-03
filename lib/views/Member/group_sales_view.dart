@@ -9,216 +9,199 @@ import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
 class GroupSalesView extends StatefulWidget {
-  const GroupSalesView({Key key}) : super(key: key);
+  const GroupSalesView({super.key});
 
   @override
-  _GroupSalesViewState createState() => _GroupSalesViewState();
+  State<GroupSalesView> createState() => _GroupSalesViewState();
 }
 
 class _GroupSalesViewState extends State<GroupSalesView> {
   @override
   Widget build(BuildContext context) {
     return BaseView<NetworkViewModel>(
-        onModelReady: (model) {
-          model.init();
-        },
-        statusBarTheme: Brightness.dark,
-        builder: (context, model, child) {
-          return Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                centerTitle: true,
-                title: !model.isSearch
-                    ? Text(
-                        MyStrings.textNetwork,
-                        style: textMedium,
-                      )
-                    : Container(
-                        child: TextField(
-                          autofocus: true,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                          decoration: InputDecoration(
-                              hintText: "Search by name",
-                              hintStyle: TextStyle(color: Colors.white54)),
-                          controller: model.searchName,
-                          onChanged: model.searchByName,
-                        ),
+      onModelReady: (model) {
+        model.init();
+      },
+      statusBarTheme: Brightness.dark,
+      builder: (context, model, child) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: true,
+            title: !model.isSearch
+                ? Text(MyStrings.textNetwork, style: textMedium)
+                : Container(
+                    child: TextField(
+                      autofocus: true,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: "Search by name",
+                        hintStyle: TextStyle(color: Colors.white54),
                       ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(model.isSearch ? Icons.close : Icons.search),
-                    onPressed: model.searchClick,
+                      controller: model.searchName,
+                      onChanged: model.searchByName,
+                    ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.refresh),
-                    onPressed: model.refreshInit,
-                  )
-                ],
-                elevation: 0,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(model.isSearch ? Icons.close : Icons.search),
+                onPressed: model.searchClick,
               ),
-              body: Column(
-                children: <Widget>[
-                  Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        AnimatedContainer(
-                            padding: UIHelper.marginHorizontal(16),
-                            height: model.reachTop ? 150 : 0,
-                            color:
-                                model.reachTop ? Colors.white : Colors.black12,
-                            duration: Duration(milliseconds: 300),
-                            child: ListView(
-                              children: <Widget>[
-                                InputDate(
-                                  name: "Start Date",
-                                  initialDate: model.startDate,
-                                  currDate: model.startDate,
-                                  maxDate: model.endDate,
-                                  minDate: DateTime(2001, 01, 01),
-                                  onChange: model.setStartDate,
-                                ),
-                                InputDate(
-                                  name: "End Date",
-                                  initialDate: model.endDate,
-                                  minDate: model.startDate,
-                                  currDate: model.endDate,
-                                  onChange: model.setEndDate,
-                                )
-                              ],
-                            )),
-                        Container(
-                          color: Colors.white,
-                          padding: UIHelper.marginHorizontal(16),
-                          child: Column(
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: model.refreshInit,
+              ),
+            ],
+            elevation: 0,
+          ),
+          body: Column(
+            children: <Widget>[
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    AnimatedContainer(
+                      padding: UIHelper.marginHorizontal(16),
+                      height: model.reachTop ? 150 : 0,
+                      color: model.reachTop ? Colors.white : Colors.black12,
+                      duration: Duration(milliseconds: 300),
+                      child: ListView(
+                        children: <Widget>[
+                          InputDate<DateTime>(
+                            name: "Start Date",
+                            initialDate: model.startDate,
+                            currDate: model.startDate,
+                            maxDate: model.endDate,
+                            minDate: DateTime(2001, 01, 01),
+                            onChange: model.setStartDate,
+                          ),
+                          InputDate<DateTime>(
+                            name: "End Date",
+                            initialDate: model.endDate,
+                            minDate: model.startDate,
+                            currDate: model.endDate,
+                            onChange: model.setEndDate,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      padding: UIHelper.marginHorizontal(16),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Paragraft(
-                                    text: "Tampilkan semua member",
-                                  ),
-                                  Switch(
-                                    value: model.allowZero,
-                                    onChanged: (val) {
-                                      if (!model.busy) model.setAllowZero(val);
-                                    },
-                                  )
-                                ],
+                              Paragraft(text: "Tampilkan semua member"),
+                              Switch(
+                                value: model.allowZero,
+                                onChanged: (val) {
+                                  if (!model.busy) model.setAllowZero(val);
+                                },
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Paragraft(
-                                    text: "Termasuk transfer PV",
-                                  ),
-                                  Switch(
-                                    value: model.transfer == 1 ? true : false,
-                                    onChanged: (val) {
-                                      if (!model.busy) model.setTransfer(val);
-                                    },
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Paragraft(
-                                    text: "Tampilkan Group DM",
-                                  ),
-                                  Switch(
-                                    value: model.groupDm == 1 ? true : false,
-                                    onChanged: (val) {
-                                      if (!model.busy) model.setGroupDM(val);
-                                    },
-                                  )
-                                ],
-                              )
                             ],
                           ),
-                        )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Paragraft(text: "Termasuk transfer PV"),
+                              Switch(
+                                value: model.transfer == 1 ? true : false,
+                                onChanged: (val) {
+                                  if (!model.busy) model.setTransfer(val);
+                                },
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Paragraft(text: "Tampilkan Group DM"),
+                              Switch(
+                                value: model.groupDm == 1 ? true : false,
+                                onChanged: (val) {
+                                  if (!model.busy) model.setGroupDM(val);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(thickness: 2, height: 1),
+              Expanded(
+                child: Container(
+                  // height: _height * 0.635,
+                  // padding: EdgeInsets.only(bottom: 1),
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: LoaderListPage(
+                    refresh: model.refreshInit,
+                    length: model.listGroupSales.length,
+                    isLoading: model.busy,
+                    child: Stack(
+                      children: <Widget>[
+                        ListView.builder(
+                          itemCount: model.listGroupSales.length,
+                          shrinkWrap: true,
+                          controller: model.scrollController,
+                          itemBuilder: (BuildContext context, int i) {
+                            return CardListMember(
+                              model: model,
+                              listDirect: model.listGroupSales[i],
+                            );
+                          },
+                        ),
+                        if (model.screenLoading)
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              color: Theme.of(
+                                context,
+                              ).primaryColor.withOpacity(0.3),
+                              padding: UIHelper.marginVertical(10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 28,
+                                    height: 28,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  Paragraft(
+                                    // textAlign: TextAlign.center,
+                                    text: "  Loading More Data...",
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),
-                  Divider(
-                    thickness: 2,
-                    height: 1,
-                  ),
-                  Expanded(
-                    child: Container(
-                      // height: _height * 0.635,
-                      // padding: EdgeInsets.only(bottom: 1),
-                      color: Theme.of(context).backgroundColor,
-                      child: LoaderListPage(
-                        refresh: model.refreshInit,
-                        length: model.listGroupSales.length,
-                        isLoading: model.busy,
-                        child: Stack(
-                          children: <Widget>[
-                            ListView.builder(
-                              itemCount: model.listGroupSales.length,
-                              shrinkWrap: true,
-                              controller: model.scrollController,
-                              itemBuilder: (BuildContext context, int i) {
-                                return CardListMember(
-                                  model: model,
-                                  listDirect: model.listGroupSales[i],
-                                );
-                              },
-                            ),
-                            if (model.screenLoading)
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.3),
-                                  padding: UIHelper.marginVertical(10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      SizedBox(
-                                          width: 28,
-                                          height: 28,
-                                          child: CircularProgressIndicator()),
-                                      Paragraft(
-                                        // textAlign: TextAlign.center,
-                                        text: "  Loading More Data...",
-                                        color: Colors.black,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ));
-        });
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
 class CardListMember extends StatefulWidget {
   final NetworkViewModel model;
-  final ListGroupSales listDirect;
+  final ListGroupSales? listDirect;
 
-  const CardListMember({
-    this.model,
-    this.listDirect,
-    Key key,
-  }) : super(key: key);
+  const CardListMember({required this.model, this.listDirect, super.key});
 
   @override
-  _CardListMemberState createState() => _CardListMemberState();
+  State<CardListMember> createState() => _CardListMemberState();
 }
 
 class _CardListMemberState extends State<CardListMember>
@@ -235,7 +218,7 @@ class _CardListMemberState extends State<CardListMember>
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        widget.model.selectUser(widget.listDirect.memberId);
+        widget.model.selectUser(widget.listDirect?.memberId ?? 0);
       },
       onDoubleTap: _setExpand,
       onLongPress: _setExpand,
@@ -243,8 +226,10 @@ class _CardListMemberState extends State<CardListMember>
         child: Column(
           children: <Widget>[
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 12,
+              ),
               // leading: CircleAvatar(
               //   backgroundImage: NetworkImage(
               //       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNLyfxPZ-nUdi6iSYGHMWikE8dvYxpWWkhSxSkz17IAMKSbTYE"),
@@ -253,30 +238,27 @@ class _CardListMemberState extends State<CardListMember>
               leading: Column(
                 children: <Widget>[
                   Paragraft(
-                    text: "${widget.listDirect.level}",
+                    text: "${widget.listDirect?.level}",
                     textStyle: textMedium,
                     fontSize: 20,
                   ),
-                  Paragraft(
-                    text: "Level",
-                    textStyle: textSmall,
-                  )
+                  Paragraft(text: "Level", textStyle: textSmall),
                 ],
               ),
               title: Paragraft(
                 text:
-                    "${widget.listDirect.binghanId} - ${widget.listDirect.nama}",
+                    "${widget.listDirect?.binghanId} - ${widget.listDirect?.nama}",
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Paragraft(
-                    text: "UP : ${widget.listDirect.sponsorBinghanId}",
+                    text: "UP : ${widget.listDirect?.sponsorBinghanId}",
                     textStyle: textThin,
                     color: Colors.black87,
                   ),
                   Paragraft(
-                    text: "${widget.listDirect.sponsorName}",
+                    text: "${widget.listDirect?.sponsorName}",
                     textStyle: textThin,
                     color: Colors.black87,
                   ),
@@ -284,21 +266,13 @@ class _CardListMemberState extends State<CardListMember>
               ),
               trailing: Column(
                 children: <Widget>[
-                  Paragraft(
-                    text: "${widget.listDirect.pv} PV",
-                  ),
-                  Paragraft(
-                    text: "${widget.listDirect.persen}%",
-                  ),
+                  Paragraft(text: "${widget.listDirect?.pv} PV"),
+                  Paragraft(text: "${widget.listDirect?.persen}%"),
                 ],
               ),
             ),
-            Divider(
-              height: 1,
-              thickness: 2,
-            ),
+            Divider(height: 1, thickness: 2),
             AnimatedSize(
-              vsync: this,
               duration: Duration(milliseconds: 200),
               curve: Curves.easeOutExpo,
               child: Container(
@@ -321,8 +295,12 @@ class _CardListMemberState extends State<CardListMember>
                                       color: Colors.black87,
                                     ),
                                     Paragraft(
-                                        text: widget
-                                            .listDirect.expireDateFormated),
+                                      text:
+                                          widget
+                                              .listDirect
+                                              ?.expireDateFormated ??
+                                          '',
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -334,13 +312,13 @@ class _CardListMemberState extends State<CardListMember>
                                       color: Colors.black87,
                                     ),
                                     Paragraft(
-                                        text:
-                                            "${widget.listDirect.syaratPv} PV"),
+                                      text: "${widget.listDirect?.syaratPv} PV",
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       )
                     : SizedBox(height: 0),
@@ -364,7 +342,7 @@ class _CardListMemberState extends State<CardListMember>
                               ? Icons.keyboard_arrow_up
                               : Icons.keyboard_arrow_down,
                           color: Theme.of(context).primaryColor,
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -379,20 +357,17 @@ class _CardListMemberState extends State<CardListMember>
 }
 
 class StatusLabel extends StatelessWidget {
-  const StatusLabel({
-    Key key,
-  }) : super(key: key);
+  const StatusLabel({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: UIHelper.marginSymmetric(3, 10),
       decoration: BoxDecoration(
-          color: Colors.black12, borderRadius: BorderRadius.circular(20)),
-      child: Paragraft(
-        text: "exp 12 Des 2019",
-        textStyle: textThin,
+        color: Colors.black12,
+        borderRadius: BorderRadius.circular(20),
       ),
+      child: Paragraft(text: "exp 12 Des 2019", textStyle: textThin),
     );
   }
 }
