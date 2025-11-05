@@ -6,6 +6,7 @@ import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:binghan_mobile/views/_helpers/ui_helpers.dart';
 import 'package:binghan_mobile/views/_widgets/ColorLoader.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:binghan_mobile/views/base_view.dart';
 
@@ -162,108 +163,107 @@ class _ProductDetailState extends State<ProductDetail> {
               //   fontSize: 18,
               // ),
               UIHelper.verticalSpaceMedium(),
-              // TODO: Dropdown 
-              // FindDropdown<ListDownline>(
-              //   onFind: (String filter) {
-              //     return model.getDownline(filter);
-              //   },
-              //   onChanged: (ListDownline? data) {
-              //     if (data != null) {
-              //       model.setDownline(data);
-              //     }
-              //   },
-              //   dropdownBuilder: (BuildContext context, ListDownline? data) {
-              //     return Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: <Widget>[
-              //         Container(
-              //           decoration: BoxDecoration(
-              //             border: Border(
-              //               bottom: BorderSide(
-              //                 width: 2,
-              //                 color: model.isDownline
-              //                     ? Theme.of(context).primaryColor
-              //                     : Theme.of(context).colorScheme.error,
-              //               ),
-              //             ),
-              //           ),
-              //           alignment: Alignment.centerLeft,
-              //           child: ListTile(
-              //             contentPadding: EdgeInsets.all(0),
-              //             trailing: Icon(Icons.arrow_drop_down_circle),
-              //             title: Paragraft(
-              //               text: "Order for :",
-              //               textStyle: textThinBold,
-              //               color: colorPrimary,
-              //               fontSize: 20,
-              //             ),
-              //             subtitle: (model.downline != null)
-              //                 ? Column(
-              //                     crossAxisAlignment: CrossAxisAlignment.start,
-              //                     children: <Widget>[
-              //                       Paragraft(
-              //                         text:
-              //                             "${model.downline?.binghanId} - ${model.downline?.firstName} ${model.downline?.lastName}",
-              //                         textStyle: textThinLarge,
-              //                         color: colorPrimary,
-              //                       ),
-              //                       Paragraft(
-              //                         text:
-              //                             "UP : ${model.downline?.sponsorBinghanId} - ${model.downline?.namaSponsor}",
-              //                         textStyle: textThin,
-              //                         color: colorAccent,
-              //                       ),
-              //                     ],
-              //                   )
-              //                 : Text("Pilih Downline"),
-              //           ),
-              //         ),
-              //         model.isDownline
-              //             ? SizedBox(height: 0)
-              //             : Text(
-              //                 "Downline is requred",
-              //                 style: MyColors.ColorInputError.merge(textSmall),
-              //               ),
-              //       ],
-              //     );
-              //   },
-              //   dropdownItemBuilder:
-              //       (BuildContext context, ListDownline data, bool isSel) {
-              //         return Container(
-              //           child: ListTile(
-              //             leading: Icon(Icons.search),
-              //             title: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: <Widget>[
-              //                 Row(
-              //                   children: <Widget>[
-              //                     Paragraft(text: "${data.binghanId}"),
-              //                     if (data.status?.toLowerCase() != "active")
-              //                       Row(
-              //                         children: <Widget>[
-              //                           Paragraft(text: " - "),
-              //                           Paragraft(
-              //                             text: "${data.status}",
-              //                             color: Colors.red,
-              //                           ),
-              //                         ],
-              //                       ),
-              //                   ],
-              //                 ),
-              //                 Paragraft(
-              //                   text: "${data.firstName} ${data.lastName}",
-              //                 ),
-              //                 Paragraft(
-              //                   text:
-              //                       "Up  : ${data.sponsorBinghanId}-${data.namaSponsor}",
-              //                   textStyle: textThin,
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         );
-              //       },
-              // ),
+              FindDropdown<ListDownline>(
+                onFind: (String filter) {
+                  return model.getDownline(filter);
+                },
+                onChanged: (ListDownline? data) {
+                  if (data != null) {
+                    model.setDownline(data);
+                  }
+                },
+                dropdownBuilder: (BuildContext context, ListDownline? data) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 2,
+                              color: model.isDownline
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                        alignment: Alignment.centerLeft,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(0),
+                          trailing: Icon(Icons.arrow_drop_down_circle),
+                          title: Paragraft(
+                            text: "Order for :",
+                            textStyle: textThinBold,
+                            color: colorPrimary,
+                            fontSize: 20,
+                          ),
+                          subtitle: (model.downline != null)
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Paragraft(
+                                      text:
+                                          "${model.downline?.binghanId} - ${model.downline?.firstName} ${model.downline?.lastName}",
+                                      textStyle: textThinLarge,
+                                      color: colorPrimary,
+                                    ),
+                                    Paragraft(
+                                      text:
+                                          "UP : ${model.downline?.sponsorBinghanId} - ${model.downline?.namaSponsor}",
+                                      textStyle: textThin,
+                                      color: colorAccent,
+                                    ),
+                                  ],
+                                )
+                              : Text("Pilih Downline"),
+                        ),
+                      ),
+                      model.isDownline
+                          ? SizedBox(height: 0)
+                          : Text(
+                              "Downline is requred",
+                              style: MyColors.ColorInputError.merge(textSmall),
+                            ),
+                    ],
+                  );
+                },
+                dropdownItemBuilder:
+                    (BuildContext context, ListDownline data, bool isSel) {
+                      return Container(
+                        child: ListTile(
+                          leading: Icon(Icons.search),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Paragraft(text: "${data.binghanId}"),
+                                  if (data.status?.toLowerCase() != "active")
+                                    Row(
+                                      children: <Widget>[
+                                        Paragraft(text: " - "),
+                                        Paragraft(
+                                          text: "${data.status}",
+                                          color: Colors.red,
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                              Paragraft(
+                                text: "${data.firstName} ${data.lastName}",
+                              ),
+                              Paragraft(
+                                text:
+                                    "Up  : ${data.sponsorBinghanId}-${data.namaSponsor}",
+                                textStyle: textThin,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+              ),
               UIHelper.verticalSpaceMedium(),
               Paragraft(
                 text: model.itemDetail?.name ?? '',

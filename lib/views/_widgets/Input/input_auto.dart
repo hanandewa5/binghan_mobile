@@ -6,8 +6,8 @@ class InputAuto<T> extends StatefulWidget {
   final String? name;
   final String? value;
   final bool? isError;
-  final Function(T?)? onChange;
-  final List? list;
+  final ValueChanged<String?>? onChange;
+  final List<T>? list;
   final bool? isExpanded;
 
   const InputAuto({
@@ -24,7 +24,7 @@ class InputAuto<T> extends StatefulWidget {
   State<InputAuto> createState() => _InputAutoState();
 }
 
-class _InputAutoState extends State<InputAuto> {
+class _InputAutoState<T> extends State<InputAuto<T>> {
   @override
   Widget build(BuildContext context) {
     var colorPrimary = Theme.of(context).primaryColor;
@@ -59,7 +59,7 @@ class _InputAutoState extends State<InputAuto> {
                   ) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value),
+                      child: Text(value, style: TextStyle(color: Colors.black)),
                     );
                   }).toList(),
                 ),

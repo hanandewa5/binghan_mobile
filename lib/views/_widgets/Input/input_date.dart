@@ -1,5 +1,6 @@
 import 'package:binghan_mobile/views/_helpers/color_helper.dart';
 import 'package:binghan_mobile/views/_helpers/text_helper.dart';
+import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class InputDate<T> extends StatefulWidget {
   final String? name;
   final String? value;
   final bool? isError;
-  final void Function(T?)? onChange;
+  final void Function(DateTime)? onChange;
   final bool? isExpanded;
   final DateTime? initialDate;
   final DateTime? currDate;
@@ -38,16 +39,24 @@ class _InputDateState extends State<InputDate> {
   Widget build(BuildContext context) {
     var colorPrimary = Theme.of(context).primaryColor;
     return InkWell(
-      onTap: () {
-        // DatePicker.showDatePicker(
-        //   context,
-        //   showTitleActions: true,
-        //   minTime: widget.minDate ?? DateTime(2017, 1, 1),
-        //   maxTime: widget.maxDate ?? DateTime.now(),
-        //   onConfirm: widget.onChange,
-        //   currentTime: widget.initialDate ?? DateTime.now(),
-        //   locale: LocaleType.id,
-        // );
+      onTap: () async {
+        await showBoardDateTimePicker(
+          context: context,
+          pickerType: DateTimePickerType.date,
+          initialDate: widget.initialDate ?? DateTime.now(),
+          options: BoardDateTimeOptions(
+            languages: BoardPickerLanguages(
+              today: "Hari ini",
+              tomorrow: "Besok",
+              yesterday: "Kemarin",
+              now: "Sekarang",
+              locale: "id",
+            ),
+          ),
+          maximumDate: widget.maxDate ?? DateTime.now(),
+          minimumDate: widget.minDate ?? DateTime(2017, 1, 1),
+          onChanged: widget.onChange,
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

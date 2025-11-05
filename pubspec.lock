@@ -193,6 +193,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+4"
+  find_dropdown:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "246ad59d4e8a0638bdd95845a5916341c9df1194"
+      url: "https://github.com/hanandewa5/find_dropdown"
+    source: git
+    version: "1.0.1-beta.3"
   firebase_core:
     dependency: transitive
     description:
@@ -592,6 +601,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  select_dialog:
+    dependency: transitive
+    description:
+      name: select_dialog
+      sha256: fdc118ba88fa5f880f1c0f4bd9021c392e9dcff04485acd984ae0394a6311dfe
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   shared_preferences:
     dependency: "direct main"
     description:

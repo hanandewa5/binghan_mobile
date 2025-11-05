@@ -104,7 +104,7 @@ class _AppTabBarState extends State<AppTabBar>
   @override
   Widget build(BuildContext context) {
     var colorBackground = Theme.of(context).scaffoldBackgroundColor;
-    var colorButtonActive = Theme.of(context).scaffoldBackgroundColor;
+    var colorButtonActive = Theme.of(context).colorScheme.secondary;
     return Scaffold(
       body: WillPopScope(
         onWillPop: onWillPop,
@@ -122,7 +122,7 @@ class _AppTabBarState extends State<AppTabBar>
         ),
       ),
       bottomNavigationBar: Container(
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: colorBackground,
           boxShadow: [
             BoxShadow(color: Colors.grey, blurRadius: 8.0, spreadRadius: 1.0),

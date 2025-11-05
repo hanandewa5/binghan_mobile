@@ -1,9 +1,9 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:binghan_mobile/views/_helpers/color_helper.dart';
 import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:binghan_mobile/views/_widgets/Layout/carouselWithIndicator.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
-import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/_helpers/ui_helpers.dart';
 import 'package:binghan_mobile/viewmodels/dashboard_viewmodel.dart';
 import 'package:binghan_mobile/views/base_view.dart';
@@ -66,8 +66,8 @@ class _DashboardViewState extends State<DashboardView>
           centerTitle: true,
           title: Text(MyStrings.textHome),
           actions: <Widget>[
-            Badge(
-              position: BadgePosition.topEnd(end: 0, top: 0),
+            badges.Badge(
+              position: badges.BadgePosition.topEnd(end: 0, top: 0),
               showBadge: model.notifiBadgeCounter > 0 && true,
               badgeContent: Text(
                 "${model.notifiBadgeCounter}",
@@ -78,8 +78,8 @@ class _DashboardViewState extends State<DashboardView>
                 icon: Icon(Icons.notifications),
               ),
             ),
-            Badge(
-              position: BadgePosition.topEnd(end: 0, top: 0),
+            badges.Badge(
+              position: badges.BadgePosition.topEnd(end: 0, top: 0),
               showBadge: model.cartBadgeCounter > 0 && true,
               badgeContent: Text(
                 model.cartBadgeCounter.toString(),

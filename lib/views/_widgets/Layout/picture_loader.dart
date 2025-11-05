@@ -33,6 +33,14 @@ class PictureLoader extends StatelessWidget {
                 : (url != null && url != "")
                 ? NetworkImage(url!)
                 : AssetImage("assets/images/profile.png"),
+            imageErrorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                "assets/images/profile.png",
+                width: width,
+                height: height,
+                fit: BoxFit.cover,
+              );
+            },
           ),
           editable == true
               ? Positioned(

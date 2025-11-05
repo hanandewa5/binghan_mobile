@@ -35,6 +35,9 @@ class _ButtonSubmitState extends State<ButtonSubmit> {
           borderRadius: BorderRadius.circular(18.0),
           side: BorderSide(color: widget.outlineColor ?? colorPrimary),
         ),
+        backgroundColor: widget.outlineColor != null
+            ? Colors.white
+            : widget.color ?? colorPrimary,
         foregroundColor: widget.color ?? colorPrimary,
       ),
       onPressed: widget.isLoad == true ? null : widget.onPressed,

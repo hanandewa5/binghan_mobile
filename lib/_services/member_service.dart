@@ -35,8 +35,8 @@ class MemberService {
   late ListInvoiceCallback _invoiceUrl;
   ListInvoiceCallback get invoiceUrl => _invoiceUrl;
 
-  late ListBankChild _paymentMethod;
-  ListBankChild get paymentMethod => _paymentMethod;
+  ListBankChild? _paymentMethod;
+  ListBankChild? get paymentMethod => _paymentMethod;
 
   Future<Province> getProvince(String filter) async {
     var res = await _apiGet.getProvince(filter);

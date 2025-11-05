@@ -19,6 +19,7 @@ class TermAndCondition extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(20),
+      padding: EdgeInsets.only(top: 20),
       child: ListView(
         children: <Widget>[
           Paragraft(

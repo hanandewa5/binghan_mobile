@@ -2,6 +2,7 @@ import 'package:binghan_mobile/models/cart.dart';
 import 'package:binghan_mobile/models/city.dart';
 import 'package:binghan_mobile/models/district.dart';
 import 'package:binghan_mobile/models/province.dart';
+import 'package:binghan_mobile/models/warehouse.dart';
 import 'package:binghan_mobile/viewmodels/payment_viewmodel.dart';
 import 'package:binghan_mobile/views/_helpers/color_helper.dart';
 import 'package:binghan_mobile/views/_helpers/text_helper.dart';
@@ -11,6 +12,7 @@ import 'package:binghan_mobile/views/_widgets/Input/input_auto.dart';
 import 'package:binghan_mobile/views/_widgets/Input/input_multi.dart';
 import 'package:binghan_mobile/views/_widgets/Input/input_text.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
@@ -155,32 +157,32 @@ class CartList extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  // TODO: Dropdown
-                  // FindDropdown<ListWarehouse>(
-                  //   showSearchBox: false,
-                  //   items: model.listWarehouse,
-                  //   onChanged: (ListWarehouse data) =>
-                  //       model.setWarehouse(data),
-                  //   dropdownBuilder: (
-                  //     BuildContext context,
-                  //     ListWarehouse data,
-                  //   ) {
-                  //     return DropdownInput(
-                  //       value: model.warehouse,
-                  //       title: "Warehouse from",
-                  //       displayName: (model.warehouse != null)
-                  //           ? model.warehouse.name
-                  //           : "",
-                  //     );
-                  //   },
-                  //   dropdownItemBuilder: (BuildContext context,
-                  //       ListWarehouse data, bool isSel) {
-                  //     return ListTile(
-                  //       leading: Icon(Icons.search),
-                  //       title: Text(data.name),
-                  //     );
-                  //   },
-                  // ),
+                  FindDropdown<ListWarehouse>(
+                    showSearchBox: false,
+                    items: model.listWarehouse,
+                    onChanged: (ListWarehouse? data) {
+                      if (data != null) {
+                        model.setWarehouse(data);
+                      }
+                    },
+                    dropdownBuilder:
+                        (BuildContext context, ListWarehouse? data) {
+                          return DropdownInput(
+                            value: model.warehouse,
+                            title: "Warehouse from",
+                            displayName: (model.warehouse != null)
+                                ? model.warehouse?.name
+                                : "",
+                          );
+                        },
+                    dropdownItemBuilder:
+                        (BuildContext context, ListWarehouse data, bool isSel) {
+                          return ListTile(
+                            leading: Icon(Icons.search),
+                            title: Text(data.name ?? ''),
+                          );
+                        },
+                  ),
                   InputAuto(
                     name: "Cara Pengiriman",
                     value: model.deliveryMethod,
@@ -205,100 +207,99 @@ class CartList extends StatelessWidget {
                       children: <Widget>[
                         UIHelper.verticalSpaceMedium(),
                         Text("Alamat Penerima"),
-                        // TODO: Dropdown
-                        // FindDropdown<ListProvince>(
-                        //   onFind: (String filter) {
-                        //     return model.getProvince(filter);
-                        //   },
-                        //   onChanged: (ListProvince? data) {
-                        //     if (data != null) {
-                        //       model.setProvince(data);
-                        //     }
-                        //   },
-                        //   dropdownBuilder:
-                        //       (BuildContext context, ListProvince? data) {
-                        //         return DropdownInput(
-                        //           value: model.province,
-                        //           title: "Provinsi",
-                        //           displayName: model.province != null
-                        //               ? model.province!.province!
-                        //               : "",
-                        //         );
-                        //       },
-                        //   dropdownItemBuilder:
-                        //       (
-                        //         BuildContext context,
-                        //         ListProvince data,
-                        //         bool isSel,
-                        //       ) {
-                        //         return ListTile(
-                        //           leading: Icon(Icons.search),
-                        //           title: Text(data.province ?? ''),
-                        //         );
-                        //       },
-                        // ),
-                        // FindDropdown<ListCity>(
-                        //   onFind: (String filter) {
-                        //     return model.getCity(filter);
-                        //   },
-                        //   onChanged: (ListCity? data) {
-                        //     if (data != null) {
-                        //       model.setCity(data);
-                        //     }
-                        //   },
-                        //   dropdownBuilder:
-                        //       (BuildContext context, ListCity? data) {
-                        //         return DropdownInput(
-                        //           value: model.city,
-                        //           title: "Kota",
-                        //           displayName: model.city != null
-                        //               ? model.city!.cityName!
-                        //               : "",
-                        //         );
-                        //       },
-                        //   dropdownItemBuilder:
-                        //       (
-                        //         BuildContext context,
-                        //         ListCity data,
-                        //         bool isSel,
-                        //       ) {
-                        //         return ListTile(
-                        //           leading: Icon(Icons.search),
-                        //           title: Text(data.cityName ?? ''),
-                        //         );
-                        //       },
-                        // ),
-                        // FindDropdown<ListDistrict>(
-                        //   onFind: (String filter) {
-                        //     return model.getDistrict(filter);
-                        //   },
-                        //   onChanged: (ListDistrict? data) {
-                        //     if (data != null) {
-                        //       model.setDistrict(data);
-                        //     }
-                        //   },
-                        //   dropdownBuilder:
-                        //       (BuildContext context, ListDistrict? data) {
-                        //         return DropdownInput(
-                        //           value: model.district,
-                        //           title: "Kecamatan",
-                        //           displayName: model.district != null
-                        //               ? model.district!.subdistrictName!
-                        //               : "",
-                        //         );
-                        //       },
-                        //   dropdownItemBuilder:
-                        //       (
-                        //         BuildContext context,
-                        //         ListDistrict data,
-                        //         bool isSel,
-                        //       ) {
-                        //         return ListTile(
-                        //           leading: Icon(Icons.search),
-                        //           title: Text(data.subdistrictName ?? ''),
-                        //         );
-                        //       },
-                        // ),
+                        FindDropdown<ListProvince>(
+                          onFind: (String filter) {
+                            return model.getProvince(filter);
+                          },
+                          onChanged: (ListProvince? data) {
+                            if (data != null) {
+                              model.setProvince(data);
+                            }
+                          },
+                          dropdownBuilder:
+                              (BuildContext context, ListProvince? data) {
+                                return DropdownInput(
+                                  value: model.province,
+                                  title: "Provinsi",
+                                  displayName: model.province != null
+                                      ? model.province!.province!
+                                      : "",
+                                );
+                              },
+                          dropdownItemBuilder:
+                              (
+                                BuildContext context,
+                                ListProvince data,
+                                bool isSel,
+                              ) {
+                                return ListTile(
+                                  leading: Icon(Icons.search),
+                                  title: Text(data.province ?? ''),
+                                );
+                              },
+                        ),
+                        FindDropdown<ListCity>(
+                          onFind: (String filter) {
+                            return model.getCity(filter);
+                          },
+                          onChanged: (ListCity? data) {
+                            if (data != null) {
+                              model.setCity(data);
+                            }
+                          },
+                          dropdownBuilder:
+                              (BuildContext context, ListCity? data) {
+                                return DropdownInput(
+                                  value: model.city,
+                                  title: "Kota",
+                                  displayName: model.city != null
+                                      ? model.city!.cityName!
+                                      : "",
+                                );
+                              },
+                          dropdownItemBuilder:
+                              (
+                                BuildContext context,
+                                ListCity data,
+                                bool isSel,
+                              ) {
+                                return ListTile(
+                                  leading: Icon(Icons.search),
+                                  title: Text(data.cityName ?? ''),
+                                );
+                              },
+                        ),
+                        FindDropdown<ListDistrict>(
+                          onFind: (String filter) {
+                            return model.getDistrict(filter);
+                          },
+                          onChanged: (ListDistrict? data) {
+                            if (data != null) {
+                              model.setDistrict(data);
+                            }
+                          },
+                          dropdownBuilder:
+                              (BuildContext context, ListDistrict? data) {
+                                return DropdownInput(
+                                  value: model.district,
+                                  title: "Kecamatan",
+                                  displayName: model.district != null
+                                      ? model.district!.subdistrictName!
+                                      : "",
+                                );
+                              },
+                          dropdownItemBuilder:
+                              (
+                                BuildContext context,
+                                ListDistrict data,
+                                bool isSel,
+                              ) {
+                                return ListTile(
+                                  leading: Icon(Icons.search),
+                                  title: Text(data.subdistrictName ?? ''),
+                                );
+                              },
+                        ),
                         InputText(
                           bordered: true,
                           isRequered: true,
