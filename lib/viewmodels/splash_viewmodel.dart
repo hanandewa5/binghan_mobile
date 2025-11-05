@@ -46,24 +46,37 @@ class SplashViewModel extends BaseModel {
     checkLabel = "Check Version";
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String appVersion = packageInfo.buildNumber;
-    var res = await _splashServ.checkVersion(appVersion);
-    if (res.code == 200) {
-      if (res.data["is_update"]) {
-        errorHandle(
-          "Versi aplikasi anda belum update, silahkan update di Play Store!",
-          isUpdate: true,
-          isForced: res.data["is_force"],
-        );
-      } else {
-        Future.delayed(Duration(milliseconds: 300), () {
-          persVal += 0.25;
-          refresh();
-          _navServ.replaceTo(routes.WebWelcome);
-        });
-      }
-    } else {
-      errorHandle("Maaf ada kesalahan... coba lagi!");
-    }
+    // var res = await _splashServ.checkVersion(appVersion);
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      persVal += 0.25;
+      refresh();
+      _navServ.replaceTo(routes.WebWelcome);
+    });
+
+    // if (res.code == 200) {
+    //   if (res.data["is_update"]) {
+    //     errorHandle(
+    //       "Versi aplikasi anda belum update, silahkan update di Play Store!",
+    //       isUpdate: true,
+    //       isForced: res.data["is_force"],
+    //     );
+    //   } else {
+    //     Future.delayed(Duration(milliseconds: 300), () {
+    //       persVal += 0.25;
+    //       refresh();
+    //       _navServ.replaceTo(routes.WebWelcome);
+    //     });
+    //   }
+
+    //   Future.delayed(Duration(milliseconds: 300), () {
+    //     persVal += 0.25;
+    //     refresh();
+    //     _navServ.replaceTo(routes.WebWelcome);
+    //   });
+    // } else {
+    //   errorHandle("Maaf ada kesalahan... coba lagi!");
+    // }
   }
 
   Future goToAppStore() async {

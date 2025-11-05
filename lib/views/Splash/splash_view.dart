@@ -6,8 +6,10 @@ import 'package:binghan_mobile/views/base_view.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
+  const SplashView({super.key});
+
   @override
-  _SplashViewState createState() => _SplashViewState();
+  State<SplashView> createState() => _SplashViewState();
 }
 
 class _SplashViewState extends State<SplashView> {
@@ -28,37 +30,34 @@ class _SplashViewState extends State<SplashView> {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width * 0.3,
-                child: Image.asset("lib/_assets/images/logo.png"),
+                child: Image.asset("assets/images/logo.png"),
               ),
               Container(
                 child: Column(
                   children: <Widget>[
                     model.isError
                         ? model.isAnyUpdate
-                            ? Column(
-                                children: <Widget>[
-                                  ButtonSubmit(
-                                    onPressed: model.goToAppStore,
-                                    title: "Pergi Ke Appstore",
-                                  ),
-                                  UIHelper.verticalSpace(10),
-                                  if (!model.isForce)
-                                    InkWell(
-                                      onTap: model.goToLogin,
-                                      child: Paragraft(
-                                        text: "Lain Kali",
-                                        color: Colors.black45,
+                              ? Column(
+                                  children: <Widget>[
+                                    ButtonSubmit(
+                                      onPressed: model.goToAppStore,
+                                      title: "Pergi Ke Appstore",
+                                    ),
+                                    UIHelper.verticalSpace(10),
+                                    if (!model.isForce)
+                                      InkWell(
+                                        onTap: model.goToLogin,
+                                        child: Paragraft(
+                                          text: "Lain Kali",
+                                          color: Colors.black45,
+                                        ),
                                       ),
-                                    )
-                                ],
-                              )
-                            : IconButton(
-                                icon: Icon(
-                                  Icons.refresh,
-                                  size: 30,
-                                ),
-                                onPressed: model.init,
-                              )
+                                  ],
+                                )
+                              : IconButton(
+                                  icon: Icon(Icons.refresh, size: 30),
+                                  onPressed: model.init,
+                                )
                         : Container(
                             height: 30,
                             child: ClipRRect(
@@ -87,10 +86,10 @@ class _SplashViewState extends State<SplashView> {
                         text: model.checkLabel,
                         textAlign: TextAlign.center,
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

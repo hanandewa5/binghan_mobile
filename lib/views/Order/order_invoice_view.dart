@@ -104,7 +104,7 @@ class _OrderInvoiceHeaderViewState extends State<OrderInvoiceHeaderView> {
             //             image: NetworkImage(
             //                 "https://thechalkboardmag.com/wp-content/uploads/2019/08/ginseng-1.jpg"),
             //             fit: BoxFit.cover,
-            //             placeholder: AssetImage('lib/_assets/images/loading.gif'),
+            //             placeholder: AssetImage('assets/images/loading.gif'),
             //           ),
             //         ),
             //       ),

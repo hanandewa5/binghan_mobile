@@ -131,7 +131,7 @@ class _ProductState extends State<Product> {
                       model.listProductItem[index].imageUrl ?? '',
                     ),
                     fit: BoxFit.cover,
-                    placeholder: AssetImage('lib/_assets/images/loading.gif'),
+                    placeholder: AssetImage('assets/images/loading.gif'),
                   ),
                 ),
               ),

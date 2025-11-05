@@ -16,7 +16,7 @@ dependencies:
   http: 1.5.0
   shared_preferences: 2.5.3
   fl_chart: 1.1.1
-  find_dropdown: 1.0.0
+  # find_dropdown: 1.0.0
   image_picker: 1.2.0
   # flutter_money_formatter: ^0.8.3
   badges: ^3.1.2
@@ -31,7 +31,7 @@ dependencies:
   date_format: ^2.0.9
   webview_flutter: ^4.13.0
   image_cropper: ^11.0.0
-  flutter_datetime_picker: ^1.5.1
+  board_datetime_picker: ^2.8.4
   fluttertoast: ^9.0.0
   url_launcher: ^6.3.2
   # package_info: '>=0.4.3 <2.0.0'
@@ -44,3 +44,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/fonts/
+    - assets/images/

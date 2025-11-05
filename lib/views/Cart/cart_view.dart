@@ -177,7 +177,7 @@ class CartList extends StatelessWidget {
                   child: FadeInImage(
                     image: NetworkImage(listCart?.items?.imageUrl ?? ''),
                     fit: BoxFit.cover,
-                    placeholder: AssetImage('lib/_assets/images/loading.gif'),
+                    placeholder: AssetImage('assets/images/loading.gif'),
                   ),
                 ),
               ),

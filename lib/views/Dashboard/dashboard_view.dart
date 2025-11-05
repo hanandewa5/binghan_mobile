@@ -297,7 +297,7 @@ class _BuildCardState extends State<BuildCard> {
             children: <Widget>[
               FadeInImage(
                 image: NetworkImage(i.fotoUrl ?? ''),
-                placeholder: AssetImage('lib/_assets/images/loading.gif'),
+                placeholder: AssetImage('assets/images/loading.gif'),
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,

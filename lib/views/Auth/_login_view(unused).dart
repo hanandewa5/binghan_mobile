@@ -67,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
                             Container(
                               alignment: Alignment(0.0, 1),
                               child: Image.asset(
-                                  "lib/_assets/images/image_02.png"),
+                                  "assets/images/image_02.png"),
                             ),
                             Column(
                               children: <Widget>[
@@ -76,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
                                   child: Container(
                                     alignment: Alignment(0.0, 0.5),
                                     child: Image.asset(
-                                      "lib/_assets/images/unesco.png",
+                                      "assets/images/unesco.png",
                                       width: 150,
                                     ),
                                   ),

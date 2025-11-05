@@ -2,7 +2,6 @@ import 'package:binghan_mobile/views/_helpers/color_helper.dart';
 import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class InputDate<T> extends StatefulWidget {
   final String? name;
@@ -40,15 +39,15 @@ class _InputDateState extends State<InputDate> {
     var colorPrimary = Theme.of(context).primaryColor;
     return InkWell(
       onTap: () {
-        DatePicker.showDatePicker(
-          context,
-          showTitleActions: true,
-          minTime: widget.minDate ?? DateTime(2017, 1, 1),
-          maxTime: widget.maxDate ?? DateTime.now(),
-          onConfirm: widget.onChange,
-          currentTime: widget.initialDate ?? DateTime.now(),
-          locale: LocaleType.id,
-        );
+        // DatePicker.showDatePicker(
+        //   context,
+        //   showTitleActions: true,
+        //   minTime: widget.minDate ?? DateTime(2017, 1, 1),
+        //   maxTime: widget.maxDate ?? DateTime.now(),
+        //   onConfirm: widget.onChange,
+        //   currentTime: widget.initialDate ?? DateTime.now(),
+        //   locale: LocaleType.id,
+        // );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -27,12 +27,12 @@ class PictureLoader extends StatelessWidget {
             fit: BoxFit.cover,
             width: width,
             height: height,
-            placeholder: AssetImage("lib/_assets/images/loading.gif"),
+            placeholder: AssetImage("assets/images/loading.gif"),
             image: isBusy == true
-                ? AssetImage("lib/_assets/images/loading.gif")
+                ? AssetImage("assets/images/loading.gif")
                 : (url != null && url != "")
                 ? NetworkImage(url!)
-                : AssetImage("lib/_assets/images/profile.png"),
+                : AssetImage("assets/images/profile.png"),
           ),
           editable == true
               ? Positioned(

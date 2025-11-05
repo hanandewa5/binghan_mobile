@@ -52,10 +52,10 @@ class EditProfileDocumentView extends StatelessWidget {
                           child: FadeInImage(
                             fit: BoxFit.cover,
                             placeholder: AssetImage(
-                              "lib/_assets/images/loading.gif",
+                              "assets/images/loading.gif",
                             ),
                             image: model.busy
-                                ? AssetImage("lib/_assets/images/loading.gif")
+                                ? AssetImage("assets/images/loading.gif")
                                 : (model.fotoKTpFile != null)
                                 ? FileImage(model.fotoKTpFile!)
                                 : (model.fotoKTpUrl != "" &&
@@ -64,7 +64,7 @@ class EditProfileDocumentView extends StatelessWidget {
                                 ? NetworkImage(
                                     "${model.fotoKTpUrl}?${DateTime.now()}",
                                   )
-                                : AssetImage("lib/_assets/images/ktp.png"),
+                                : AssetImage("assets/images/ktp.png"),
                           ),
                         ),
                       ),
@@ -102,11 +102,11 @@ class EditProfileDocumentView extends StatelessWidget {
                                       child: FadeInImage(
                                         fit: BoxFit.cover,
                                         placeholder: AssetImage(
-                                          "lib/_assets/images/loading.gif",
+                                          "assets/images/loading.gif",
                                         ),
                                         image: model.busy
                                             ? AssetImage(
-                                                "lib/_assets/images/loading.gif",
+                                                "assets/images/loading.gif",
                                               )
                                             : (model.fotoNPWPFile != null)
                                             ? FileImage(model.fotoNPWPFile!)
@@ -117,7 +117,7 @@ class EditProfileDocumentView extends StatelessWidget {
                                                 "${model.fotoNPWPUrl}?${DateTime.now()}",
                                               )
                                             : AssetImage(
-                                                "lib/_assets/images/ktp.png",
+                                                "assets/images/ktp.png",
                                               ),
                                       ),
                                     ),

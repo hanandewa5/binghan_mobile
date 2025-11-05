@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  board_datetime_picker:
+    dependency: "direct main"
+    description:
+      name: board_datetime_picker
+      sha256: "052df9bb2ce2c5a3a9fc293a718824ab991d79486f700433487474124ee13595"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.8.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -185,14 +193,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+4"
-  find_dropdown:
-    dependency: "direct main"
-    description:
-      name: find_dropdown
-      sha256: "9a8189e41f74d6607b3455bd181e6d8475382495ed8904c058b0d371d3728fca"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   firebase_core:
     dependency: transitive
     description:
@@ -254,14 +254,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_datetime_picker:
-    dependency: "direct main"
-    description:
-      name: flutter_datetime_picker
-      sha256: "8e695c63c769350e541951227c2775190ec73ceda774a315b1dc9a99d5facfe5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -416,6 +408,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.2"
   leak_tracker:
     dependency: transitive
     description:
@@ -592,14 +592,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
-  select_dialog:
-    dependency: transitive
-    description:
-      name: select_dialog
-      sha256: fdc118ba88fa5f880f1c0f4bd9021c392e9dcff04485acd984ae0394a6311dfe
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   shared_preferences:
     dependency: "direct main"
     description:

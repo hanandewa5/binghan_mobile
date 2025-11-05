@@ -44,7 +44,7 @@ class _ResetPassState extends State<ResetPass> {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width * 0.3,
-                    child: Image.asset("lib/_assets/images/logo.png"),
+                    child: Image.asset("assets/images/logo.png"),
                   ),
                   Text("Reset Password", style: headerStyle),
                 ],

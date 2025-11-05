@@ -38,7 +38,7 @@ class _AppTabBarState extends State<AppTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   DateTime? currentBackPressTime;
-  final _firebaseMessaging = FirebaseMessaging.instance;
+  // final _firebaseMessaging = FirebaseMessaging.instance;
   final _dashboardViewModel = locator<DashboardViewModel>();
 
   @override
@@ -46,7 +46,7 @@ class _AppTabBarState extends State<AppTabBar>
     super.initState();
     _controller = TabController(length: 5, vsync: this);
     _controller.addListener(_handleTabSelection);
-    firebaseCloudMessagingListeners();
+    // firebaseCloudMessagingListeners();
   }
 
   void _handleTabSelection() {

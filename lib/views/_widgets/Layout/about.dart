@@ -19,7 +19,7 @@ class _AboutCarouselState extends State<AboutCarousel> {
       builder: (context, model, child) {
         List<Map<String, dynamic>> carouselList = [
           {
-            "imgUrl": "lib/_assets/images/pic2.jpg",
+            "imgUrl": "assets/images/pic2.jpg",
             "title": "BING HAN Ginseng",
             "descs":
                 "BING HAN Ginseng menggunakan bahan Panax Ginseng dari pegunungan Chang Bai yang telah berumur 6 tahun keatas, berwarna putih bersih. Diproses khusus dengan sistem nano teknologi modern yang menggunakan suhu rendah 28oC, melewati 14 proses dan kemudian diekstrak 4 kali untuk diambil sari patinya, dalam 20 menit dapat diserap dalam tubuh.",
@@ -100,7 +100,7 @@ class _AboutCarouselState extends State<AboutCarousel> {
             ],
           },
           {
-            "imgUrl": "lib/_assets/images/pic1.jpg",
+            "imgUrl": "assets/images/pic1.jpg",
             "title": "The Millennium Essence – Bing Han Ginseng",
             "descs":
                 "BING HAN Ginseng menggunakan bahan Panax Ginseng dari pegunungan Chang Bai yang telah berumur 6 tahun keatas, berwarna putih bersih. Diproses khusus dengan sistem nano teknologi modern yang menggunakan suhu rendah 28oC, melewati 14 proses dan kemudian diekstrak 4 kali untuk diambil sari patinya, dalam 20 menit dapat diserap dalam tubuh.",

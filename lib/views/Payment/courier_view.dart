@@ -6,7 +6,6 @@ import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:binghan_mobile/views/_helpers/ui_helpers.dart';
 import 'package:binghan_mobile/views/_widgets/ColorLoader.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
@@ -149,61 +148,62 @@ class CartList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  FindDropdown<ListCourier>(
-                    showSearchBox: false,
-                    items: model.listCourier,
-                    onChanged: (ListCourier? data) {
-                      if (data != null) {
-                        model.setCourier(data);
-                      }
-                    },
-                    dropdownBuilder: (BuildContext context, ListCourier? data) {
-                      return DropdownInput(
-                        value: model.courier,
-                        title: "Kurir",
-                        displayName: (model.courier != null)
-                            ? model.courier!.name!
-                            : "",
-                      );
-                    },
-                    dropdownItemBuilder:
-                        (BuildContext context, ListCourier data, bool isSel) {
-                          return ListTile(
-                            leading: Icon(Icons.search),
-                            title: Text(data.name ?? ''),
-                          );
-                        },
-                  ),
-                  FindDropdown<ListCourierService>(
-                    showSearchBox: false,
-                    items: model.listCourierService,
-                    onChanged: (ListCourierService? data) {
-                      if (data != null) {
-                        model.setCourierService(data);
-                      }
-                    },
-                    dropdownBuilder:
-                        (BuildContext context, ListCourierService? data) {
-                          return DropdownInput(
-                            value: model.courierService,
-                            title: "Service",
-                            displayName: (model.courierService != null)
-                                ? model.courierService!.service!
-                                : "",
-                          );
-                        },
-                    dropdownItemBuilder:
-                        (
-                          BuildContext context,
-                          ListCourierService data,
-                          bool isSel,
-                        ) {
-                          return ListTile(
-                            leading: Icon(Icons.search),
-                            title: Text(data.service ?? ''),
-                          );
-                        },
-                  ),
+                  // TODO: Dropdown
+                  // FindDropdown<ListCourier>(
+                  //   showSearchBox: false,
+                  //   items: model.listCourier,
+                  //   onChanged: (ListCourier? data) {
+                  //     if (data != null) {
+                  //       model.setCourier(data);
+                  //     }
+                  //   },
+                  //   dropdownBuilder: (BuildContext context, ListCourier? data) {
+                  //     return DropdownInput(
+                  //       value: model.courier,
+                  //       title: "Kurir",
+                  //       displayName: (model.courier != null)
+                  //           ? model.courier!.name!
+                  //           : "",
+                  //     );
+                  //   },
+                  //   dropdownItemBuilder:
+                  //       (BuildContext context, ListCourier data, bool isSel) {
+                  //         return ListTile(
+                  //           leading: Icon(Icons.search),
+                  //           title: Text(data.name ?? ''),
+                  //         );
+                  //       },
+                  // ),
+                  // FindDropdown<ListCourierService>(
+                  //   showSearchBox: false,
+                  //   items: model.listCourierService,
+                  //   onChanged: (ListCourierService? data) {
+                  //     if (data != null) {
+                  //       model.setCourierService(data);
+                  //     }
+                  //   },
+                  //   dropdownBuilder:
+                  //       (BuildContext context, ListCourierService? data) {
+                  //         return DropdownInput(
+                  //           value: model.courierService,
+                  //           title: "Service",
+                  //           displayName: (model.courierService != null)
+                  //               ? model.courierService!.service!
+                  //               : "",
+                  //         );
+                  //       },
+                  //   dropdownItemBuilder:
+                  //       (
+                  //         BuildContext context,
+                  //         ListCourierService data,
+                  //         bool isSel,
+                  //       ) {
+                  //         return ListTile(
+                  //           leading: Icon(Icons.search),
+                  //           title: Text(data.service ?? ''),
+                  //         );
+                  //       },
+                  // ),
                   UIHelper.verticalSpaceSmall(),
                   Paragraft(
                     text: "Perkiraan tiba (${model.estimateDays}) hari",

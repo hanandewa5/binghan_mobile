@@ -10,7 +10,6 @@ import 'package:binghan_mobile/views/_widgets/Input/input_date.dart';
 import 'package:binghan_mobile/views/_widgets/Input/input_multi.dart';
 import 'package:binghan_mobile/views/_widgets/Input/input_text.dart';
 import 'package:binghan_mobile/views/_widgets/Layout/bank_child.dart';
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:binghan_mobile/views/base_view.dart';
 
@@ -18,7 +17,7 @@ class NewMember extends StatefulWidget {
   const NewMember({super.key});
 
   @override
-  _NewMemberState createState() => _NewMemberState();
+  State<NewMember> createState() => _NewMemberState();
 }
 
 class _NewMemberState extends State<NewMember> {
@@ -147,199 +146,201 @@ class _NewMemberState extends State<NewMember> {
                     "Home Address",
                     style: textLarge.merge(MyColors.ColorInputBlack),
                   ),
-                  FindDropdown<ListProvince>(
-                    onFind: (String filter) {
-                      return model.getProvince(filter);
-                    },
-                    onChanged: (data) {
-                      if (data != null) {
-                        model.setProvince(data);
-                      }
-                    },
+                  // TODO: Dropdown
+                  // FindDropdown<ListProvince>(
+                  //   onFind: (String filter) {
+                  //     return model.getProvince(filter);
+                  //   },
+                  //   onChanged: (data) {
+                  //     if (data != null) {
+                  //       model.setProvince(data);
+                  //     }
+                  //   },
 
-                    dropdownBuilder:
-                        (BuildContext context, ListProvince? data) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 2,
-                                      color: model.isProvince
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).colorScheme.error,
-                                    ),
-                                  ),
-                                ),
-                                alignment: Alignment.centerLeft,
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.all(0),
-                                  trailing: Icon(Icons.arrow_drop_down_circle),
-                                  title: Text(
-                                    "Provinsi",
-                                    style: textSmall.merge(
-                                      TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  subtitle: (model.province != null)
-                                      ? Text(
-                                          model.province!.province ?? '',
-                                          style: textMedium.merge(
-                                            TextStyle(color: Colors.black),
-                                          ),
-                                        )
-                                      : Text("Pilih Provinsi"),
-                                ),
-                              ),
-                              model.isProvince
-                                  ? SizedBox(height: 0)
-                                  : Text(
-                                      "Provinsi is requred",
-                                      style: MyColors.ColorInputError.merge(
-                                        textSmall,
-                                      ),
-                                    ),
-                            ],
-                          );
-                        },
-                    dropdownItemBuilder:
-                        (BuildContext context, ListProvince data, bool isSel) {
-                          return ListTile(
-                            leading: Icon(Icons.search),
-                            title: Text(data.province ?? ''),
-                          );
-                        },
-                  ),
-                  FindDropdown<ListCity>(
-                    onFind: (String filter) {
-                      return model.getCity(filter);
-                    },
-                    onChanged: (ListCity? data) {
-                      if (data != null) {
-                        model.setCity(data);
-                      }
-                    },
-                    dropdownBuilder: (BuildContext context, ListCity? data) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: ListTile(
-                              contentPadding: EdgeInsets.all(0),
-                              trailing: Icon(Icons.arrow_drop_down_circle),
-                              title: Text(
-                                "Kota",
-                                style: textSmall.merge(
-                                  TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                              ),
-                              subtitle: (model.city != null)
-                                  ? Text(
-                                      model.city!.cityName ?? '',
-                                      style: textMedium.merge(
-                                        TextStyle(color: Colors.black),
-                                      ),
-                                    )
-                                  : Text("Pilih Kota"),
-                            ),
-                          ),
-                          model.isCity
-                              ? SizedBox(height: 0)
-                              : Text(
-                                  "Provinsi is requred",
-                                  style: MyColors.ColorInputError.merge(
-                                    textSmall,
-                                  ),
-                                ),
-                        ],
-                      );
-                    },
-                    dropdownItemBuilder:
-                        (BuildContext context, ListCity data, bool isSel) {
-                          return ListTile(
-                            leading: Icon(Icons.search),
-                            title: Text(data.cityName ?? ''),
-                          );
-                        },
-                  ),
-                  FindDropdown<ListDistrict>(
-                    onFind: (String filter) {
-                      return model.getDistrict(filter);
-                    },
-                    onChanged: (ListDistrict? data) {
-                      if (data != null) {
-                        model.setDistrict(data);
-                      }
-                    },
-                    dropdownBuilder: (BuildContext context, ListDistrict? data) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: ListTile(
-                              contentPadding: EdgeInsets.all(0),
-                              trailing: Icon(Icons.arrow_drop_down_circle),
-                              title: Text(
-                                "Kecamatan",
-                                style: textSmall.merge(
-                                  TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                              ),
-                              subtitle: (model.district != null)
-                                  ? Text(
-                                      model.district!.subdistrictName ?? '',
-                                      style: textMedium.merge(
-                                        TextStyle(color: Colors.black),
-                                      ),
-                                    )
-                                  : Text("Pilih Kecamatan"),
-                            ),
-                          ),
-                          model.isDistrict
-                              ? SizedBox(height: 0)
-                              : Text(
-                                  "Provinsi is requred",
-                                  style: MyColors.ColorInputError.merge(
-                                    textSmall,
-                                  ),
-                                ),
-                        ],
-                      );
-                    },
-                    dropdownItemBuilder:
-                        (BuildContext context, ListDistrict data, bool isSel) {
-                          return ListTile(
-                            leading: Icon(Icons.search),
-                            title: Text(data.subdistrictName ?? ''),
-                          );
-                        },
-                  ),
+                  //   dropdownBuilder:
+                  //       (BuildContext context, ListProvince? data) {
+                  //         return Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: <Widget>[
+                  //             Container(
+                  //               decoration: BoxDecoration(
+                  //                 border: Border(
+                  //                   bottom: BorderSide(
+                  //                     width: 2,
+                  //                     color: model.isProvince
+                  //                         ? Theme.of(context).primaryColor
+                  //                         : Theme.of(context).colorScheme.error,
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //               alignment: Alignment.centerLeft,
+                  //               child: ListTile(
+                  //                 contentPadding: EdgeInsets.all(0),
+                  //                 trailing: Icon(Icons.arrow_drop_down_circle),
+                  //                 title: Text(
+                  //                   "Provinsi",
+                  //                   style: textSmall.merge(
+                  //                     TextStyle(
+                  //                       color: Theme.of(context).primaryColor,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 subtitle: (model.province != null)
+                  //                     ? Text(
+                  //                         model.province!.province ?? '',
+                  //                         style: textMedium.merge(
+                  //                           TextStyle(color: Colors.black),
+                  //                         ),
+                  //                       )
+                  //                     : Text("Pilih Provinsi"),
+                  //               ),
+                  //             ),
+                  //             model.isProvince
+                  //                 ? SizedBox(height: 0)
+                  //                 : Text(
+                  //                     "Provinsi is requred",
+                  //                     style: MyColors.ColorInputError.merge(
+                  //                       textSmall,
+                  //                     ),
+                  //                   ),
+                  //           ],
+                  //         );
+                  //       },
+                  //   dropdownItemBuilder:
+                  //       (BuildContext context, ListProvince data, bool isSel) {
+                  //         return ListTile(
+                  //           leading: Icon(Icons.search),
+                  //           title: Text(data.province ?? ''),
+                  //         );
+                  //       },
+                  // ),
+                  // FindDropdown<ListCity>(
+                  //   onFind: (String filter) {
+                  //     return model.getCity(filter);
+                  //   },
+                  //   onChanged: (ListCity? data) {
+                  //     if (data != null) {
+                  //       model.setCity(data);
+                  //     }
+                  //   },
+                  //   dropdownBuilder: (BuildContext context, ListCity? data) {
+                  //     return Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: <Widget>[
+                  //         Container(
+                  //           decoration: BoxDecoration(
+                  //             border: Border(
+                  //               bottom: BorderSide(
+                  //                 width: 2,
+                  //                 color: Theme.of(context).primaryColor,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           alignment: Alignment.centerLeft,
+                  //           child: ListTile(
+                  //             contentPadding: EdgeInsets.all(0),
+                  //             trailing: Icon(Icons.arrow_drop_down_circle),
+                  //             title: Text(
+                  //               "Kota",
+                  //               style: textSmall.merge(
+                  //                 TextStyle(
+                  //                   color: Theme.of(context).primaryColor,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //             subtitle: (model.city != null)
+                  //                 ? Text(
+                  //                     model.city!.cityName ?? '',
+                  //                     style: textMedium.merge(
+                  //                       TextStyle(color: Colors.black),
+                  //                     ),
+                  //                   )
+                  //                 : Text("Pilih Kota"),
+                  //           ),
+                  //         ),
+                  //         model.isCity
+                  //             ? SizedBox(height: 0)
+                  //             : Text(
+                  //                 "Provinsi is requred",
+                  //                 style: MyColors.ColorInputError.merge(
+                  //                   textSmall,
+                  //                 ),
+                  //               ),
+                  //       ],
+                  //     );
+                  //   },
+                  //   dropdownItemBuilder:
+                  //       (BuildContext context, ListCity data, bool isSel) {
+                  //         return ListTile(
+                  //           leading: Icon(Icons.search),
+                  //           title: Text(data.cityName ?? ''),
+                  //         );
+                  //       },
+                  // ),
+                  // FindDropdown<ListDistrict>(
+                  //   onFind: (String filter) {
+                  //     return model.getDistrict(filter);
+                  //   },
+                  //   onChanged: (ListDistrict? data) {
+                  //     if (data != null) {
+                  //       model.setDistrict(data);
+                  //     }
+                  //   },
+                  //   dropdownBuilder:
+                  //       (BuildContext context, ListDistrict? data) {
+                  //         return Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: <Widget>[
+                  //             Container(
+                  //               decoration: BoxDecoration(
+                  //                 border: Border(
+                  //                   bottom: BorderSide(
+                  //                     width: 2,
+                  //                     color: Theme.of(context).primaryColor,
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //               alignment: Alignment.centerLeft,
+                  //               child: ListTile(
+                  //                 contentPadding: EdgeInsets.all(0),
+                  //                 trailing: Icon(Icons.arrow_drop_down_circle),
+                  //                 title: Text(
+                  //                   "Kecamatan",
+                  //                   style: textSmall.merge(
+                  //                     TextStyle(
+                  //                       color: Theme.of(context).primaryColor,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 subtitle: (model.district != null)
+                  //                     ? Text(
+                  //                         model.district!.subdistrictName ?? '',
+                  //                         style: textMedium.merge(
+                  //                           TextStyle(color: Colors.black),
+                  //                         ),
+                  //                       )
+                  //                     : Text("Pilih Kecamatan"),
+                  //               ),
+                  //             ),
+                  //             model.isDistrict
+                  //                 ? SizedBox(height: 0)
+                  //                 : Text(
+                  //                     "Provinsi is requred",
+                  //                     style: MyColors.ColorInputError.merge(
+                  //                       textSmall,
+                  //                     ),
+                  //                   ),
+                  //           ],
+                  //         );
+                  //       },
+                  //   dropdownItemBuilder:
+                  //       (BuildContext context, ListDistrict data, bool isSel) {
+                  //         return ListTile(
+                  //           leading: Icon(Icons.search),
+                  //           title: Text(data.subdistrictName ?? ''),
+                  //         );
+                  //       },
+                  // ),
                   InputText(
                     bordered: true,
                     isRequered: true,
@@ -513,13 +514,13 @@ class _NewMemberState extends State<NewMember> {
                           child: FadeInImage(
                             fit: BoxFit.cover,
                             placeholder: AssetImage(
-                              "lib/_assets/images/loading.gif",
+                              "assets/images/loading.gif",
                             ),
                             image: model.busy
-                                ? AssetImage("lib/_assets/images/loading.gif")
+                                ? AssetImage("assets/images/loading.gif")
                                 : (model.fotoKTpFile != null)
                                 ? FileImage(model.fotoKTpFile!)
-                                : AssetImage("lib/_assets/images/ktp.png"),
+                                : AssetImage("assets/images/ktp.png"),
                           ),
                         ),
                       ),
@@ -557,16 +558,16 @@ class _NewMemberState extends State<NewMember> {
                                       child: FadeInImage(
                                         fit: BoxFit.cover,
                                         placeholder: AssetImage(
-                                          "lib/_assets/images/loading.gif",
+                                          "assets/images/loading.gif",
                                         ),
                                         image: model.busy
                                             ? AssetImage(
-                                                "lib/_assets/images/loading.gif",
+                                                "assets/images/loading.gif",
                                               )
                                             : (model.fotoNPWPFile != null)
                                             ? FileImage(model.fotoNPWPFile!)
                                             : AssetImage(
-                                                "lib/_assets/images/ktp.png",
+                                                "assets/images/ktp.png",
                                               ),
                                       ),
                                     ),
