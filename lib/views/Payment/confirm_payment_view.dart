@@ -99,8 +99,7 @@ class BottomBar extends StatelessWidget {
                 color: colorPrimary,
               ),
               Paragraft(
-                // text: formatIDR(model.getGrandTotal()),
-                text: model.getGrandTotal().toString(),
+                text: formatIDR(model.getGrandTotal()),
                 textStyle: textThinBold,
                 color: colorPrimary,
               ),
@@ -148,7 +147,6 @@ class CartList extends StatelessWidget {
                 ),
                 rowDetail(
                   first: "Total Harga Barang",
-                  // second: formatIDR(model.subTotal),
                   second: formatIDR(model.subTotal),
                 ),
                 rowDetail(

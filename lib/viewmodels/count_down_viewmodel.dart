@@ -42,7 +42,9 @@ class CountDownViewModal extends BaseModel {
   TextEditingController alamat = TextEditingController();
 
   void initCount() {
-    startTimer();
+    if (listInvoiceCallback?.method == "BCA") {
+      startTimer();
+    }
   }
 
   int getTotal() {

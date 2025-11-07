@@ -35,19 +35,17 @@ class _CountDownViewState extends State<CountDownView> {
             body: Stack(
               children: <Widget>[
                 SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        (model.busy)
-                            ? Container(
-                                height: MediaQuery.of(context).size.height - 80,
-                                child: Center(child: ColorLoader2()),
-                              )
-                            : Column(
-                                children: <Widget>[CartList(model: model)],
-                              ),
-                      ],
-                    ),
+                  child: Column(
+                    children: <Widget>[
+                      (model.busy)
+                          ? SizedBox(
+                              height: MediaQuery.of(context).size.height - 80,
+                              child: Center(child: ColorLoader2()),
+                            )
+                          : Column(
+                              children: <Widget>[CartList(model: model)],
+                            ),
+                    ],
                   ),
                 ),
               ],
@@ -140,8 +138,7 @@ class CartList extends StatelessWidget {
           UIHelper.verticalSpaceMedium(),
           Paragraft(text: "Jumlah yang harus dibayar:", color: Colors.black87),
           UIHelper.verticalSpaceMedium(),
-          // Paragraft(text: formatIDR(model.getTotal()), color: colorAccent),
-          Paragraft(text: model.getTotal().toString(), color: colorAccent),
+          Paragraft(text: formatIDR(model.getTotal()), color: colorAccent),
           UIHelper.verticalSpaceMedium(),
           InkWell(
             onTap: () {

@@ -38,7 +38,6 @@ class _AppTabBarState extends State<AppTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   DateTime? currentBackPressTime;
-  // final _firebaseMessaging = FirebaseMessaging.instance;
   final _dashboardViewModel = locator<DashboardViewModel>();
 
   @override
@@ -46,7 +45,7 @@ class _AppTabBarState extends State<AppTabBar>
     super.initState();
     _controller = TabController(length: 5, vsync: this);
     _controller.addListener(_handleTabSelection);
-    // firebaseCloudMessagingListeners();
+    firebaseCloudMessagingListeners();
   }
 
   void _handleTabSelection() {
@@ -70,11 +69,11 @@ class _AppTabBarState extends State<AppTabBar>
   }
 
   void firebaseCloudMessagingListeners() {
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       Fluttertoast.showToast(
-        msg: message.data["notification"]["body"],
+        msg: message.notification?.body ?? '',
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
+        gravity: ToastGravity.TOP,
         backgroundColor: Colors.black38,
         textColor: Colors.white,
         fontSize: 16.0,
@@ -97,7 +96,7 @@ class _AppTabBarState extends State<AppTabBar>
       if (token != null) {
         _model.editMember(token);
       }
-      print(token);
+      print('TOKEN ${token}');
     });
   }
 

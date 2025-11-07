@@ -70,10 +70,11 @@ class OrderViewModel extends BaseModel {
   }
 
   void initTime() {
+    if (invoiceUrl.methodType != "BCA") return;
+
     format(Duration d) =>
         d.toString().split('.').first.padLeft(8, "0").toString();
     Duration dur = invoiceUrl.sisaWaktu ?? Duration();
-    print(dur);
     if (!dur.isNegative) {
       hour = int.parse(format(dur).substring(0, 2));
       minute = int.parse(format(dur).substring(3, 5));

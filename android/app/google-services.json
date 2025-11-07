@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94171515263",
+    "project_id": "binghan-mob",
+    "storage_bucket": "binghan-mob.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94171515263:android:68e5e5f7ab9efb7dd5f24a",
+        "android_client_info": {
+          "package_name": "id.binghan.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7iaUlv5W5X8udhmn9ZQa_FPQcEq0aKwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

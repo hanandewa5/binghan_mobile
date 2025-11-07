@@ -53,7 +53,7 @@ class _LoginViewState extends State<LoginView> {
     return Container(
       child: ListView(
         children: <Widget>[
-          UIHelper.verticalSpaceLarge(),
+          UIHelper.verticalSpaceMedium(),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -103,6 +103,7 @@ class _LoginViewState extends State<LoginView> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        SizedBox(height: 20),
                         InkWell(
                           child: Text(
                             "Back to Homepage",

@@ -112,10 +112,12 @@ class BottomBar extends StatelessWidget {
               padding: UIHelper.marginSymmetric(15, 30),
               backgroundColor: colorPrimary,
             ),
-            onPressed:
-                model.paymentMethod == null || model.busy || model.screenLoading
-                ? null
-                : model.confirm,
+            onPressed: () {
+              print(model.paymentMethod == null || model.busy || model.screenLoading);
+              model.paymentMethod == null || model.busy || model.screenLoading
+                  ? null
+                  : model.confirm();
+            },
             child: Paragraft(text: "Konfirmasi", color: Colors.white),
           ),
         ],

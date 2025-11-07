@@ -153,8 +153,7 @@ class _OrderInvoiceMultiViewState extends State<OrderInvoiceMultiView> {
                     color: Colors.black87,
                   ),
                   Paragraft(
-                    // text: formatIDR(model.listInvoiceMulti[i].total),
-                    text: model.listInvoiceMulti[i].total.toString(),
+                    text: formatIDR(model.listInvoiceMulti[i].total ?? 0),
                     textStyle: textThin,
                     color: colorAccent,
                   ),

@@ -1,7 +1,6 @@
 import 'package:binghan_mobile/viewmodels/order_viewmodel.dart';
 import 'package:binghan_mobile/views/_helpers/text_helper.dart';
 import 'package:binghan_mobile/views/_helpers/ui_helpers.dart';
-import 'package:binghan_mobile/views/_widgets/ColorLoader.dart';
 import 'package:binghan_mobile/views/_widgets/Layout/sparator.dart';
 import 'package:binghan_mobile/views/_widgets/Paragraft.dart';
 import 'package:flutter/material.dart';
@@ -31,22 +30,7 @@ class _InvoiceDetailViewState extends State<InvoiceDetailView> {
             centerTitle: true,
             title: Text("Invoice", style: textMedium),
           ),
-          body: Stack(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    (model.invoiceDetail == null)
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height - 80,
-                            child: Center(child: ColorLoader2()),
-                          )
-                        : Column(children: <Widget>[CartList(model: model)]),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          body: SingleChildScrollView(child: CartList(model: model)),
         );
       },
     );
@@ -91,18 +75,15 @@ class CartList extends StatelessWidget {
           ),
           rowDetail(
             first: "Total Harga Barang",
-            // second: formatIDR(model.subPrice.toInt()),
-            second: model.subPrice.toString(),
+            second: formatIDR(model.subPrice.toInt()),
           ),
           rowDetail(
             first: "Biaya Handling",
             second: model.handlingCost.toString(),
-            // second: formatIDR(model.handlingCost),
           ),
           rowDetail(
             first: "Total",
-            // second: formatIDR(model.subPrice.toInt() + model.handlingCost),
-            second: (model.subPrice.toInt() + model.handlingCost).toString(),
+            second: formatIDR(model.subPrice.toInt() + model.handlingCost),
           ),
           UIHelper.horizontalLine(
             width: double.infinity,
@@ -110,14 +91,12 @@ class CartList extends StatelessWidget {
           ),
           rowDetail(
             first: "POP Discount",
-            // second: "- ${formatIDR(model.subPopDisc)}",
-            second: "- ${model.subPopDisc.toString()}",
+            second: "- ${formatIDR(model.subPopDisc)}",
             secondColor: Colors.redAccent,
           ),
           rowDetail(
             first: "Voucher Discount",
-            // second: "- ${formatIDR(model.vDisc)}",
-            second: "- ${model.vDisc.toString()}",
+            second: "- ${formatIDR(model.vDisc)}",
             secondColor: Colors.redAccent,
           ),
           rowDetail(first: "Sub Total", second: model.getSubTotal().toString()),
@@ -127,22 +106,18 @@ class CartList extends StatelessWidget {
           ),
           rowDetail(
             first: "Total Ongkos Kirim",
-            // second: formatIDR(model.invoiceDetail.shippingCost),
-            second: model.invoiceDetail.shippingCost.toString(),
+            second: formatIDR(model.invoiceDetail.shippingCost ?? 0),
           ),
           rowDetail(
             first: "PPN (11%)",
-            // second: formatIDR(
-            //   (model.invoiceDetail.ppn + (model.handlingCost / 11)).toInt(),
-            // ),
-            second: (model.invoiceDetail.ppn + (model.handlingCost / 11))
-                .toString(),
+            second: formatIDR(
+              (model.invoiceDetail.ppn + (model.handlingCost / 11)).toInt(),
+            ),
           ),
           Sparator(padding: UIHelper.marginSymmetric(15, 0)),
           rowDetail(
             first: "Total Tagihan",
-            // second: formatIDR(model.grandPrice.round()),
-            second: model.grandPrice.round().toString(),
+            second: formatIDR(model.grandPrice.round()),
             secondColor: colorAccent,
           ),
           Paragraft(
@@ -180,19 +155,14 @@ class CartList extends StatelessWidget {
                     context: context,
                     first: "${model.invoiceDetail.detail?[i].item?.name}",
 
-                    // second: formatIDR(
-                    //   (model.invoiceDetail.detail?[i].item?.price *
-                    //       model.invoiceDetail.detail?[i].qty),
-                    // ),
-                    second:
-                        ((model.invoiceDetail.detail?[i].item?.price ?? 0) *
-                                (model.invoiceDetail.detail?[i].qty ?? 0))
-                            .toString(),
+                    second: formatIDR(
+                      ((model.invoiceDetail.detail?[i].item?.price ?? 0) *
+                          (model.invoiceDetail.detail?[i].qty ?? 0)),
+                    ),
                   ),
                   Paragraft(
                     text:
-                        // "${model.invoiceDetail.detail[i].qty} X ${formatIDR(model.invoiceDetail.detail[i].item.price)}",
-                        "${model.invoiceDetail.detail?[i].qty} X ${model.invoiceDetail.detail?[i].item?.price}",
+                        "${model.invoiceDetail.detail?[i].qty} X ${formatIDR(model.invoiceDetail.detail?[i].item?.price ?? 0)}",
                     color: Colors.black54,
                     textStyle: textThin,
                   ),

@@ -346,7 +346,6 @@ class PaymentViewModel extends BaseModel {
       "warehouse_id": warehouse?.id,
     };
 
-    // print(json.encode(data));
     if (orderDetails.isNotEmpty) {
       setBusy(true);
       var res = await _paymentService.confirmInvoice(data);

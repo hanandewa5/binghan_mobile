@@ -143,8 +143,7 @@ class CartList extends StatelessWidget {
               ),
               UIHelper.verticalSpaceMedium(),
               Paragraft(
-                // text: formatIDR(model.invoiceUrl?.total),
-                text: model.invoiceUrl?.total?.toString() ?? '',
+                text: formatIDR(model.invoiceUrl?.total ?? 0),
                 color: colorAccent,
               ),
               UIHelper.verticalSpaceMedium(),

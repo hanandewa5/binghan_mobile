@@ -9,8 +9,14 @@ class WebWelcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final webController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse("https://binghan.id"));
     return BaseView<AuthViewModel>(
       statusBarTheme: Brightness.dark,
+      onModelReady: (model) {
+        model.initWebview(webController);
+      },
       builder: (context, model, child) {
         return WillPopScope(
           onWillPop: () => model.exitApp(context),
@@ -22,6 +28,7 @@ class WebWelcome extends StatelessWidget {
                   onTap: model.checkLogin,
                   child: Center(
                     child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15),
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -34,14 +41,7 @@ class WebWelcome extends StatelessWidget {
               ],
             ),
             backgroundColor: Colors.white,
-            body: WebViewWidget(
-              controller: WebViewController()
-                ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                ..loadRequest(Uri.parse("https://binghan.id")),
-
-              // onWebViewCreated: model.initWebview,
-              // onPageFinished: model.onPageFinished,
-            ),
+            body: WebViewWidget(controller: webController),
           ),
         );
       },

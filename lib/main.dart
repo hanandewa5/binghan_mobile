@@ -1,16 +1,22 @@
 import 'dart:io';
 
 import 'package:binghan_mobile/_config/theme.dart';
+import 'package:binghan_mobile/firebase_options.dart';
 import 'package:binghan_mobile/views/_widgets/Alert/Dialog.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:binghan_mobile/_config/locator.dart';
 import 'package:binghan_mobile/_config/router.dart' as router;
 import 'package:binghan_mobile/_services/navigation_service.dart';
 import 'package:binghan_mobile/_constants/route_paths.dart' as routes;
 
-void main() {
+void main() async {
   setupLocator();
   HttpOverrides.global = MyHttpOverrides();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(MyApp());
 }
 

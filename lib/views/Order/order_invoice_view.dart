@@ -152,16 +152,11 @@ class _OrderInvoiceHeaderViewState extends State<OrderInvoiceHeaderView> {
                     color: Colors.black87,
                   ),
                   Paragraft(
-                    // text: formatIDR(
-                    //   model.listInvoiceHeader[i].subTotal +
-                    //       model.listInvoiceHeader[i].ppn -
-                    //       model.listInvoiceHeader[i].discount,
-                    // ),
-                    text:
-                        ((model.listInvoiceHeader[i].subTotal ?? 0) +
-                                (model.listInvoiceHeader[i].ppn ?? 0) -
-                                (model.listInvoiceHeader[i].discount ?? 0))
-                            .toString(),
+                    text: formatIDR(
+                      (model.listInvoiceHeader[i].subTotal ?? 0) +
+                          (model.listInvoiceHeader[i].ppn ?? 0) -
+                          (model.listInvoiceHeader[i].discount ?? 0),
+                    ),
                     textStyle: textThin,
                     color: colorAccent,
                   ),

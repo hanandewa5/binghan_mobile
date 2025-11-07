@@ -75,9 +75,6 @@ class _DialogManagerState extends State<DialogManager> {
       title: request.title,
       desc: request.description,
       style: AlertStyle(descStyle: textThinBold.merge(TextStyle(fontSize: 16))),
-      closeFunction: () => _dialogService.dialogComplete(
-        AlertResponse(confirmed: false, secondConfirmed: false),
-      ),
       buttons: listButton,
     ).show();
   }

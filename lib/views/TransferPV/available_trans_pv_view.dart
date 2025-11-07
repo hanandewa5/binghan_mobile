@@ -97,6 +97,7 @@ class CardListMember extends StatelessWidget {
           trailing: ElevatedButton(
             style: ElevatedButton.styleFrom(
               foregroundColor: colorAccent,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
