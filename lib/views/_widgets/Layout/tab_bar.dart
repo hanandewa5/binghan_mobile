@@ -120,52 +120,54 @@ class _AppTabBarState extends State<AppTabBar>
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: colorBackground,
-          boxShadow: [
-            BoxShadow(color: Colors.grey, blurRadius: 8.0, spreadRadius: 1.0),
-          ],
-        ),
-        child: TabBar(
-          indicatorWeight: 1,
-          labelStyle: TextStyle(fontSize: 13),
-          labelColor: colorButtonActive,
-          unselectedLabelColor: Colors.black87,
-          controller: _controller,
-          labelPadding: EdgeInsets.all(0),
-          tabs: <Widget>[
-            Tab(
-              icon: (_controller.index == 0)
-                  ? SvgPicture.asset(MyIcon.home_active)
-                  : SvgPicture.asset(MyIcon.home_inactive),
-              text: MyStrings.textHome,
-            ),
-            Tab(
-              icon: (_controller.index == 1)
-                  ? SvgPicture.asset(MyIcon.history_active)
-                  : SvgPicture.asset(MyIcon.history_inactive),
-              text: MyStrings.textOrderHistory,
-            ),
-            Tab(
-              icon: (_controller.index == 2)
-                  ? SvgPicture.asset(MyIcon.product_active)
-                  : SvgPicture.asset(MyIcon.product_inactive),
-              text: MyStrings.textProduct,
-            ),
-            Tab(
-              icon: (_controller.index == 3)
-                  ? Icon(Icons.people)
-                  : Icon(Icons.people_outline, color: colorButtonActive),
-              text: MyStrings.textNetwork,
-            ),
-            Tab(
-              icon: (_controller.index == 4)
-                  ? SvgPicture.asset(MyIcon.profile_active)
-                  : SvgPicture.asset(MyIcon.profile_inactive),
-              text: MyStrings.textProfile,
-            ),
-          ],
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            color: colorBackground,
+            boxShadow: [
+              BoxShadow(color: Colors.grey, blurRadius: 8.0, spreadRadius: 1.0),
+            ],
+          ),
+          child: TabBar(
+            indicatorWeight: 1,
+            labelStyle: TextStyle(fontSize: 13),
+            labelColor: colorButtonActive,
+            unselectedLabelColor: Colors.black87,
+            controller: _controller,
+            labelPadding: EdgeInsets.all(0),
+            tabs: <Widget>[
+              Tab(
+                icon: (_controller.index == 0)
+                    ? SvgPicture.asset(MyIcon.home_active)
+                    : SvgPicture.asset(MyIcon.home_inactive),
+                text: MyStrings.textHome,
+              ),
+              Tab(
+                icon: (_controller.index == 1)
+                    ? SvgPicture.asset(MyIcon.history_active)
+                    : SvgPicture.asset(MyIcon.history_inactive),
+                text: MyStrings.textOrderHistory,
+              ),
+              Tab(
+                icon: (_controller.index == 2)
+                    ? SvgPicture.asset(MyIcon.product_active)
+                    : SvgPicture.asset(MyIcon.product_inactive),
+                text: MyStrings.textProduct,
+              ),
+              Tab(
+                icon: (_controller.index == 3)
+                    ? Icon(Icons.people)
+                    : Icon(Icons.people_outline, color: colorButtonActive),
+                text: MyStrings.textNetwork,
+              ),
+              Tab(
+                icon: (_controller.index == 4)
+                    ? SvgPicture.asset(MyIcon.profile_active)
+                    : SvgPicture.asset(MyIcon.profile_inactive),
+                text: MyStrings.textProfile,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -61,7 +61,6 @@ class ApiGet {
           .timeout(Duration(seconds: AppConfig.timeoutRequest));
       return json.decode(response.body);
     } catch (e) {
-      print(e.toString());
       Map<String, dynamic> data = {
         "code": 500,
         "msg": "No Internet Access",
@@ -78,7 +77,6 @@ class ApiGet {
           .timeout(Duration(seconds: AppConfig.timeoutRequest));
       return json.decode(response.body);
     } catch (e) {
-      print(e.toString());
       Map<String, dynamic> data = {
         "code": 500,
         "msg": "No Internet Access",
@@ -126,7 +124,7 @@ class ApiGet {
   }
 
   Future<Member> getMember() async {
-    var result = await requestGetWithToken('$memberEndpoint');
+    var result = await requestGetWithToken(memberEndpoint);
     return Member.fromJson(result);
   }
 
@@ -153,7 +151,7 @@ class ApiGet {
   }
 
   Future<Carousel> getCarousel() async {
-    var result = await requestGetWithToken('$carouselEndpoint');
+    var result = await requestGetWithToken(carouselEndpoint);
     return Carousel.fromJson(result);
   }
 
@@ -163,17 +161,17 @@ class ApiGet {
   }
 
   Future<Courier> getCourier() async {
-    var result = await requestGetWithToken('$courierEndpoint');
+    var result = await requestGetWithToken(courierEndpoint);
     return Courier.fromJson(result);
   }
 
   Future<Bank> getPaymentMethod() async {
-    var result = await requestGetWithToken('$paymentMethodEndpoint');
+    var result = await requestGetWithToken(paymentMethodEndpoint);
     return Bank.fromJson(result);
   }
 
   Future<Warehouse> getWarehouse() async {
-    var result = await requestGetWithToken('$warehouseEndpoint');
+    var result = await requestGetWithToken(warehouseEndpoint);
     return Warehouse.fromJson(result);
   }
 
@@ -200,13 +198,11 @@ class ApiGet {
     var result = await requestGetWithToken(
       '$invoiceEndpoint/list-multi?member_id=$id',
     );
-    print(result);
     return InvoiceMultiHeader.fromJson(result);
   }
 
   Future<InvoiceDetail> getInvoiceMultiDetail(int id) async {
     var result = await requestGetWithToken('$invoiceEndpoint/detail-multi/$id');
-    print(result);
     return InvoiceDetail.fromJson(result);
   }
 
