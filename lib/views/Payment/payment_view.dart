@@ -31,10 +31,12 @@ class _PaymentState extends State<Payment> {
 
         return Scaffold(
           backgroundColor: bgColor,
-          bottomNavigationBar: BottomBar(
-            width: width,
-            colorPrimary: colorPrimary,
-            model: model,
+          bottomNavigationBar: SafeArea(
+            child: BottomBar(
+              width: width,
+              colorPrimary: colorPrimary,
+              model: model,
+            ),
           ),
           appBar: AppBar(
             elevation: 0,

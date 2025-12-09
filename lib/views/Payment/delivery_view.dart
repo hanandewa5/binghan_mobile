@@ -37,10 +37,12 @@ class _DeliveryState extends State<Delivery> {
         var colorPrimary = Theme.of(context).primaryColor;
         return Scaffold(
           backgroundColor: bgColor,
-          bottomNavigationBar: new BottomBar(
-            model: model,
-            width: width,
-            colorPrimary: colorPrimary,
+          bottomNavigationBar:  SafeArea(
+            child: BottomBar(
+              model: model,
+              width: width,
+              colorPrimary: colorPrimary,
+            ),
           ),
           appBar: AppBar(
             elevation: 0,

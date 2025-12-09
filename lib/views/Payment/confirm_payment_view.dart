@@ -30,10 +30,12 @@ class _ConfirmPaymentStateView extends State<ConfirmPaymentView> {
 
         return Scaffold(
           backgroundColor: bgColor,
-          bottomNavigationBar: new BottomBar(
-            width: width,
-            colorPrimary: colorPrimary,
-            model: model,
+          bottomNavigationBar:  SafeArea(
+            child: BottomBar(
+              width: width,
+              colorPrimary: colorPrimary,
+              model: model,
+            ),
           ),
           appBar: AppBar(
             elevation: 0,
@@ -109,6 +111,7 @@ class BottomBar extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: UIHelper.marginSymmetric(15, 30),
+              backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: colorPrimary,
             ),
             onPressed: model.screenLoading || model.busy ? null : model.pay,

@@ -30,10 +30,12 @@ class _ProductDetailState extends State<ProductDetail> {
         var colorAccent = Theme.of(context).colorScheme.secondary;
         var width = MediaQuery.of(context).size.width;
         return Scaffold(
-          bottomNavigationBar: BottomBar(
-            width: width,
-            colorPrimary: colorPrimary,
-            model: model,
+          bottomNavigationBar: SafeArea(
+            child: BottomBar(
+              width: width,
+              colorPrimary: colorPrimary,
+              model: model,
+            ),
           ),
           body: Stack(
             children: <Widget>[

@@ -29,10 +29,12 @@ class _AvailablePVTransViewState extends State<AvailablePVTransView> {
       statusBarTheme: Brightness.dark,
       builder: (context, model, child) {
         return Scaffold(
-          bottomNavigationBar: BottomBar(
-            model: model,
-            width: width,
-            colorPrimary: colorPrimary,
+          bottomNavigationBar: SafeArea(
+            child: BottomBar(
+              model: model,
+              width: width,
+              colorPrimary: colorPrimary,
+            ),
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(

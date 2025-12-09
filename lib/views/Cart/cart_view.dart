@@ -29,10 +29,12 @@ class _CartState extends State<Cart> {
         var colorPrimary = Theme.of(context).primaryColor;
         return Scaffold(
           backgroundColor: Colors.white,
-          bottomNavigationBar: BottomBar(
-            width: width,
-            colorPrimary: colorPrimary,
-            model: model,
+          bottomNavigationBar: SafeArea(
+            child: BottomBar(
+              width: width,
+              colorPrimary: colorPrimary,
+              model: model,
+            ),
           ),
           appBar: AppBar(
             centerTitle: true,

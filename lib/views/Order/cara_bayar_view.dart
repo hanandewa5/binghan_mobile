@@ -35,12 +35,14 @@ class _CaraBayarViewState extends State<CaraBayarView> {
           ),
           body: model.invoiceUrl.methodType == "BCA"
               ? CartList(model: model)
-              : WebViewWidget(
-                  controller: WebViewController()
-                    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                    ..setBackgroundColor(bgColor)
-                    ..loadRequest(Uri.parse(model.invoiceUrl.invoiceUrl ?? '')),
-                ),
+              : SafeArea(
+                child: WebViewWidget(
+                    controller: WebViewController()
+                      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                      ..setBackgroundColor(bgColor)
+                      ..loadRequest(Uri.parse(model.invoiceUrl.invoiceUrl ?? '')),
+                  ),
+              ),
         );
       },
     );

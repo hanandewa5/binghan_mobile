@@ -30,10 +30,12 @@ class _PVListViewState extends State<PVListView> {
       builder: (context, model, child) {
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          bottomNavigationBar: BottomBar(
-            model: model,
-            width: width,
-            colorPrimary: colorPrimary,
+          bottomNavigationBar: SafeArea(
+            child: BottomBar(
+              model: model,
+              width: width,
+              colorPrimary: colorPrimary,
+            ),
           ),
           appBar: AppBar(
             centerTitle: true,
