@@ -653,89 +653,91 @@ class _NewMemberState extends State<NewMember> {
               elevation: 0,
               title: Text("Member Registration", style: textMedium),
             ),
-            body: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Stepper(
-                    steps: steps,
-                    type: StepperType.horizontal,
-                    currentStep: model.currStep,
-                    onStepContinue: model.next,
-                    onStepCancel: model.back,
-                    controlsBuilder: (context, details) {
-                      return Container(
-                        margin: EdgeInsets.only(top: 10),
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            (model.currStep > 0)
-                                ? ElevatedButton(
-                                    onPressed: () {
-                                      details.onStepCancel!();
-                                    },
-                                    child: Text("Prev"),
-                                  )
-                                : Text(""),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(context).primaryColor,
+            body: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Stepper(
+                      steps: steps,
+                      type: StepperType.horizontal,
+                      currentStep: model.currStep,
+                      onStepContinue: model.next,
+                      onStepCancel: model.back,
+                      controlsBuilder: (context, details) {
+                        return Container(
+                          margin: EdgeInsets.only(top: 10),
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              (model.currStep > 0)
+                                  ? ElevatedButton(
+                                      onPressed: () {
+                                        details.onStepCancel!();
+                                      },
+                                      child: Text("Prev"),
+                                    )
+                                  : Text(""),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                ),
+                                onPressed: model.busy
+                                    ? null
+                                    : details.onStepContinue!,
+                                child: Text(
+                                  nextText(),
+                                  style: MyColors.ColorInputWhite,
+                                ),
                               ),
-                              onPressed: model.busy
-                                  ? null
-                                  : details.onStepContinue!,
-                              child: Text(
-                                nextText(),
-                                style: MyColors.ColorInputWhite,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    // controlsBuilder:
-                    //     (
-                    //       BuildContext context, {
-                    //       VoidCallback onStepContinue,
-                    //       VoidCallback onStepCancel,
-                    //     }) {
-                    //       return Container(
-                    //         margin: EdgeInsets.only(top: 10),
-                    //         width: double.infinity,
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: <Widget>[
-                    //             (model.currStep > 0)
-                    //                 ? ElevatedButton(
-                    //                     onPressed: () {
-                    //                       onStepCancel();
-                    //                     },
-                    //                     child: Text("Prev"),
-                    //                   )
-                    //                 : Text(""),
-                    //             ElevatedButton(
-                    //               style: ElevatedButton.styleFrom(
-                    //                 primary: Theme.of(context).primaryColor,
-                    //               ),
-                    //               onPressed: model.busy
-                    //                   ? null
-                    //                   : () {
-                    //                       onStepContinue();
-                    //                     },
-                    //               child: Text(
-                    //                 nextText(),
-                    //                 style: MyColors.ColorInputWhite,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     },
-
-                    // onStepTapped: (step) => model.goToStep(step),
+                            ],
+                          ),
+                        );
+                      },
+                      // controlsBuilder:
+                      //     (
+                      //       BuildContext context, {
+                      //       VoidCallback onStepContinue,
+                      //       VoidCallback onStepCancel,
+                      //     }) {
+                      //       return Container(
+                      //         margin: EdgeInsets.only(top: 10),
+                      //         width: double.infinity,
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //           children: <Widget>[
+                      //             (model.currStep > 0)
+                      //                 ? ElevatedButton(
+                      //                     onPressed: () {
+                      //                       onStepCancel();
+                      //                     },
+                      //                     child: Text("Prev"),
+                      //                   )
+                      //                 : Text(""),
+                      //             ElevatedButton(
+                      //               style: ElevatedButton.styleFrom(
+                      //                 primary: Theme.of(context).primaryColor,
+                      //               ),
+                      //               onPressed: model.busy
+                      //                   ? null
+                      //                   : () {
+                      //                       onStepContinue();
+                      //                     },
+                      //               child: Text(
+                      //                 nextText(),
+                      //                 style: MyColors.ColorInputWhite,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       );
+                      //     },
+              
+                      // onStepTapped: (step) => model.goToStep(step),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

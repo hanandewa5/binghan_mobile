@@ -1,7 +1,7 @@
 name: binghan_mobile
 description: "A new Flutter project."
 publish_to: none
-version: 1.0.0+301
+version: 1.0.0+303
 
 environment:
   sdk: ^3.9.2
