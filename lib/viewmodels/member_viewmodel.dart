@@ -344,7 +344,7 @@ class MemberViewModel extends BaseModel {
       if (croppedFile != null) {
         setBusy(true);
         Map<String, dynamic> data = {
-          "file": croppedFile,
+          "file": File(croppedFile.path),
           "jenis_file": jenisFile,
           "nama_file": "${email.text}-$jenisFile",
         };

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:binghan_mobile/models/confirm_callback.dart';
 import 'package:binghan_mobile/models/courier_service.dart';
 import 'package:binghan_mobile/models/invoice_callback.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:binghan_mobile/models/auth.dart';
 import 'package:binghan_mobile/models/res_api.dart';
@@ -180,7 +179,7 @@ class ApiPost {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       var dio = Dio();
-      XFile imageFile = data?['file'];
+      File imageFile = data?['file'];
       Map<String, dynamic> header = {"Authorization": prefs.getString("token")};
       FormData formData = new FormData.fromMap({
         "jenis_file": data?['jenis_file'],

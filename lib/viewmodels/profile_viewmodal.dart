@@ -403,22 +403,43 @@ class ProfileViewModel extends BaseModel {
         maxHeight: 300,
       );
       setBusy(true);
-      Map<String, dynamic> data = {
-        "file": image,
-        "jenis_file": "Profile",
-        "nama_file":
-            "${userData.email}-Profile-${DateTime.now().millisecondsSinceEpoch}",
-      };
 
-      var res = await _memberService.uploadImage(data);
-      setBusy(false);
-      if (res.data != null) {
-        if (res.code == 200) {
-          Map<String, dynamic> dataSave = {"photo_url": res.data["url"]};
-          saveMember(dataSave);
-          refresh();
+      if (image != null) {
+        final croppedFile = await ImageCropper().cropImage(
+          compressQuality: 50,
+          sourcePath: image.path,
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        );
+
+        if (croppedFile != null) {
+          Map<String, dynamic> data = {
+            "file": File(croppedFile.path),
+            "jenis_file": "Profile",
+            "nama_file":
+                "${userData.email}-Profile-${DateTime.now().millisecondsSinceEpoch}",
+          };
+
+          var res = await _memberService.uploadImage(data);
+          setBusy(false);
+          if (res.data != null) {
+            if (res.code == 200) {
+              Map<String, dynamic> dataSave = {"photo_url": res.data["url"]};
+              saveMember(dataSave);
+              refresh();
+            } else {
+              await _dialogService.showDialog(title: "Error", descs: res.msg);
+            }
+          } else {
+            await _dialogService.showDialog(
+              title: "Error",
+              descs: "Terjadi kesalahan, harap coba lagi",
+            );
+          }
         } else {
-          await _dialogService.showDialog(title: "Error", descs: res.msg);
+          await _dialogService.showDialog(
+            title: "Error",
+            descs: "Terjadi kesalahan, harap coba lagi",
+          );
         }
       } else {
         await _dialogService.showDialog(
